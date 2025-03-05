@@ -53,19 +53,7 @@ flutter:
   uses-material-design: true
 
   assets:
-   - assets/apple.png
-   - assets/avatar_fullname.png
-   - assets/background_awal.png
-   - assets/background_signin.png
-   - assets/background_signup.png
-   - assets/facebook.png
-   - assets/google.png
-   - assets/icon_email.png
-   - assets/icon_password.png
-   - assets/KUY.png
-   - assets/signup.png
-   - assets/signin.png
-   - assets/TRAVELING.png
+   - assets/
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
