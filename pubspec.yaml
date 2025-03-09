@@ -47,6 +47,11 @@ dependencies:
   google_maps_flutter: ^2.10.1
   carousel_slider: ^5.0.0
   fluttertoast: ^8.2.12
+  shelf: ^1.4.2
+  shelf_router: ^1.1.4
+  shelf_cors_headers: ^0.1.5
+  mysql1: ^0.20.0
+  dotenv: ^4.2.0
 
 dev_dependencies:
   flutter_test:

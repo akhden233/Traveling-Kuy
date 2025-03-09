@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'signin_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../screens/signin_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -8,7 +9,43 @@ class SignupScreen extends StatefulWidget {
   SignupScreenState createState() => SignupScreenState();
 }
 
+// Logika Backend Fitur Autentikasi Sign Up
 class SignupScreenState extends State<SignupScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  void _signUp() async {
+    if (!mounted) {
+      return; // Tambahkan {} untuk menghindari error
+    }
+
+    if (nameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        passwordController.text.isEmpty) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("All fields must be filled!"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+      return;
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userName', nameController.text);
+    await prefs.setString('userEmail', emailController.text);
+
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const SigninScreen()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +68,7 @@ class SignupScreenState extends State<SignupScreen> {
                 padding: const EdgeInsets.only(top: 50),
                 child: Opacity(
                   opacity: 0.6,
-                  child: Image.asset('assets/signup.png', width: 200),
+                  child: Image.asset('assets/signup.png', width: 150),
                 ),
               ),
             ),
@@ -59,15 +96,22 @@ class SignupScreenState extends State<SignupScreen> {
                         Icons.person,
                         "Full Name",
                         "Enter your full name",
+                        controller: nameController,
                       ),
                       const SizedBox(height: 15),
-                      buildInputField(Icons.email, "Email", "Enter your email"),
+                      buildInputField(
+                        Icons.email,
+                        "Email",
+                        "Enter your email",
+                        controller: emailController,
+                      ),
                       const SizedBox(height: 15),
                       buildInputField(
                         Icons.lock,
                         "Password",
                         "Enter your password",
                         obscureText: true,
+                        controller: passwordController,
                       ),
                       const SizedBox(height: 15),
 
@@ -76,21 +120,13 @@ class SignupScreenState extends State<SignupScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green[900],
+                            backgroundColor: Color.fromRGBO(47, 73, 44, 1),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 15),
                           ),
-                          onPressed: () {
-                            // Navigasi ke halaman Sign In setelah Sign Up
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SigninScreen(),
-                              ),
-                            );
-                          },
+                          onPressed: _signUp,
                           child: const Text(
                             "Sign Up",
                             style: TextStyle(fontSize: 16, color: Colors.white),
@@ -140,6 +176,7 @@ class SignupScreenState extends State<SignupScreen> {
     String label,
     String hint, {
     bool obscureText = false,
+    TextEditingController? controller,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,6 +187,7 @@ class SignupScreenState extends State<SignupScreen> {
         ),
         const SizedBox(height: 5),
         TextField(
+          controller: controller,
           obscureText: obscureText,
           decoration: InputDecoration(
             prefixIcon: Icon(icon, color: Colors.grey[600]),
