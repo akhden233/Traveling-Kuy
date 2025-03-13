@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/travel_card.dart';  
+import '../widgets/travel_card.dart';
 
 class TravelScreen extends StatelessWidget {
   const TravelScreen({super.key});

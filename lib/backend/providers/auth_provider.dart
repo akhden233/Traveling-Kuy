@@ -6,11 +6,11 @@ import '../utils/constants.dart';
 
 class AuthProvider with ChangeNotifier {
   User?_user;
-
   User? get user => _user;
 
+  // fungsi masuk ke alamat SignUP
   Future<void> register(String name, String email, String, pass) async {
-    final url = Uri.parse("$BASE_URL/register");
+    final url = Uri.parse("$baseUrl/register");
     final response = await http.post(
       url,
       headers: {"Content-Type": "application/json"},
@@ -19,14 +19,15 @@ class AuthProvider with ChangeNotifier {
 
     final data = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      print(data['message']);
+      _user = User(uid: data['uid'], name: name, email: email, pass: pass);
     } else {
       throw Exception(data['message']);
     }
   }
 
+  // fungsi masuk ke alamat SignIn
   Future<void> login(String email, String pass) async{
-    final url = Uri.parse("$BASE_URL/login");
+    final url = Uri.parse("$baseUrl/login");
     final response = await http.post(
       url,
       headers: {"Content-Type": "application/json"},

@@ -1,4 +1,6 @@
+import '../backend/services/api_services.dart';
 import 'package:flutter/material.dart';
+// ignore: unused_import
 import 'package:shared_preferences/shared_preferences.dart';
 import '../screens/signin_screen.dart';
 
@@ -14,6 +16,8 @@ class SignupScreenState extends State<SignupScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  bool isLoading = false;
 
   void _signUp() async {
     if (!mounted) {
@@ -34,15 +38,50 @@ class SignupScreenState extends State<SignupScreen> {
       return;
     }
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userName', nameController.text);
-    await prefs.setString('userEmail', emailController.text);
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.setString('userName', nameController.text);
+    // await prefs.setString('userEmail', emailController.text);
 
     if (mounted) {
-      Navigator.pushReplacement(
+      setState(() {
+        isLoading = true;
+      });  
+    }
+
+    final response = await ApiServices.signup(
+      nameController.text,
+      emailController.text,
+      passwordController.text,
+    );
+
+    if (mounted){
+      setState(() {
+        isLoading = false;
+        });
+    }
+    
+    if (response.containsKey('message') && response['message'] == 'Berhasil Sign Up!') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Berhasil di Daftarkan, Silahkan Login'),
+          backgroundColor:  Colors.green,
+        )
+      );
+      if (mounted) {
+        Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const SigninScreen()),
-      );
+        );
+      }
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar (
+            content: Text(response['message'] ?? 'Sign Up Gagal'),
+            backgroundColor: Colors.red[600],
+          ),
+        );
+      }
     }
   }
 

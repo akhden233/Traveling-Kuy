@@ -72,7 +72,7 @@ class SigninScreenState extends State<SigninScreen> {
             ),
       ),
     );
-  
+
     setState(() {
       isLoading = false; // Hide loading indicator
     });
