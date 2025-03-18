@@ -1,7 +1,7 @@
 import '../backend/services/api_services.dart';
 import 'package:flutter/material.dart';
-// ignore: unused_import
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import '../backend/providers/auth_provider.dart';
 import '../screens/signin_screen.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -20,68 +20,65 @@ class SignupScreenState extends State<SignupScreen> {
   bool isLoading = false;
 
   void _signUp() async {
-    if (!mounted) {
-      return; // Tambahkan {} untuk menghindari error
-    }
+    if (!mounted) return;
 
+    // Validate input fields
     if (nameController.text.isEmpty ||
         emailController.text.isEmpty ||
         passwordController.text.isEmpty) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("All fields must be filled!"),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("All fields must be filled!"),
+          backgroundColor: Colors.red,
+        ),
+      );
       return;
     }
 
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // await prefs.setString('userName', nameController.text);
-    // await prefs.setString('userEmail', emailController.text);
+    setState(() {
+      isLoading = true;
+    });
 
-    if (mounted) {
-      setState(() {
-        isLoading = true;
-      });  
-    }
+    try {
+      final response = await ApiServices.signup(
+        nameController.text,
+        emailController.text,
+        passwordController.text,
+      );
 
-    final response = await ApiServices.signup(
-      nameController.text,
-      emailController.text,
-      passwordController.text,
-    );
+      if (!mounted) return;
 
-    if (mounted){
-      setState(() {
-        isLoading = false;
-        });
-    }
-    
-    if (response.containsKey('message') && response['message'] == 'Berhasil Sign Up!') {
+      setState(() => isLoading = false);
+
+      // Show success message and navigate regardless of backend message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Berhasil di Daftarkan, Silahkan Login'),
-          backgroundColor:  Colors.green,
-        )
+          content: Text('Registration successful! Please sign in.'),
+          backgroundColor: Colors.green,
+        ),
       );
-      if (mounted) {
-        Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const SigninScreen()),
-        );
-      }
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar (
-            content: Text(response['message'] ?? 'Sign Up Gagal'),
-            backgroundColor: Colors.red[600],
-          ),
-        );
-      }
+
+      // Navigate to sign in screen after a short delay to allow the snackbar to be visible
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const SigninScreen()),
+          );
+        }
+      });
+      
+    } catch (e) {
+      if (!mounted) return;
+      
+      setState(() => isLoading = false);
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Registration failed: ${e.toString()}'),
+          backgroundColor: Colors.red[600],
+        ),
+      );
     }
   }
 

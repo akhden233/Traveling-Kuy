@@ -1,26 +1,27 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
-import '../config.dart';
+import 'package:dotenv/dotenv.dart';
 
 class Validators {
   static bool isVallidEmail(String email) {
-    return RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(email);
+    return RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    ).hasMatch(email);
   }
 
-  static bool isValidPassword(String pass){
+  static bool isValidPassword(String pass) {
     return pass.length >= 16;
   }
 
-  static bool isValidToken(String token){
-    try {
-      final jwt = JWT.verify(token, SecretKey(Config.secretKey));
-      final exp = jwt.payload['exp'];
-      if (exp != null && DateTime.now().millisecondsSinceEpoch ~/ 1000 > exp) {
-        return false; // token expired
-      }
+  static bool isValidToken(String token) {
+    final env = DotEnv()..load(['lib/backend/.env']);
+    final secretKey = env['JWT_SECRET'] ?? 'secret_key';
 
-      return true; // token valid
+    try {
+      final jwt = JWT.verify(token, SecretKey(secretKey));
+      return true; // Token valid
     } catch (e) {
-      return false; // token tidak valid
+      print("Token invalid: $e");
+      return false; // Token tidak valid
     }
   }
 }

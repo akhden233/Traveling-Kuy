@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../backend/providers/auth_provider.dart';
 import '../screens/signup_screen.dart';
 import '../screens/forgot_password_screen.dart';
 import '../screens/homepage_screen.dart';
@@ -54,24 +55,42 @@ class SigninScreenState extends State<SigninScreen> {
       isLoading = true; // Show loading indicator
     });
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? userName = prefs.getString('userName');
-    String? userEmail = prefs.getString('userEmail');
+    String email = emailController.text;
+    String pass = passwordController.text;
 
-    // Save or remove credentials based on "Remember Me"
-    await _saveOrRemoveCredentials();
+    try {
+      final authProvider = AuthProvider();
+      bool success = await authProvider.login(email, pass);
 
-    if (!mounted) return; // Check before navigating
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder:
-            (context) => HomepageScreen(
-              userName: userName ?? "User",
-              userEmail: userEmail ?? "",
+      if (success && authProvider.user != null) {
+        // save token ke SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', authProvider.user!.token);
+
+        // Save email & pass jika remember me aktif
+        await _saveOrRemoveCredentials();
+
+        if (!mounted) return;
+        Navigator.pushReplacement(context, 
+        MaterialPageRoute(
+          builder: (context) => HomepageScreen(
+            userEmail: authProvider.user!.email, 
+            userName: authProvider.user!.name,
             ),
-      ),
-    );
+          ),
+        );
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Login gagal. Periksa kembali email dan password.")),
+        );  
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: ${e.toString()}")),
+      );
+    }
 
     setState(() {
       isLoading = false; // Hide loading indicator

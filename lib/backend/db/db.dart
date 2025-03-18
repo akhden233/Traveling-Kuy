@@ -1,15 +1,15 @@
 import 'package:mysql1/mysql1.dart';
 import 'package:dotenv/dotenv.dart';
 
-class dbService {
-  static final dbService _instance = dbService._internal();
+class dbConn {
+  static final dbConn _instance = dbConn._internal();
   static MySqlConnection? _connection;
 
-  factory dbService() {
+  factory dbConn() {
     return _instance;
   }
 
-  dbService._internal();
+  dbConn._internal();
 
   static Future<MySqlConnection?> getConnection() async {
     if (_connection == null) {

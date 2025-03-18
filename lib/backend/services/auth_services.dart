@@ -6,7 +6,7 @@ import 'package:dotenv/dotenv.dart';
 class AuthServices {
   // Fungsi Register User
   static Future<bool> registerUser(String name, String email, String pass) async {
-    final conn = await dbService.getConnection();
+    final conn = await dbConn.getConnection();
 
     if (conn == null) {
       print("DB Connection failed.");
@@ -30,7 +30,7 @@ class AuthServices {
 
   // Fungsi Login User
   static Future<String?> loginUser(String email, String pass) async {
-    final conn = await dbService.getConnection(); // Pastikan pemanggilan benar
+    final conn = await dbConn.getConnection(); // Pastikan pemanggilan benar
     final env = DotEnv()..load();
 
     try {
@@ -39,7 +39,7 @@ class AuthServices {
         [email, pass],
       );
 
-      if (result!.isNotEmpty) {
+      if (result != null && result.isNotEmpty) {
         final secretKey = env['JWT_SECRET'];
         if (secretKey == null) {
           throw Exception("JWT_SECRET tidak ditemukan di .env");
@@ -53,7 +53,7 @@ class AuthServices {
       print("Error saat login: $e");
       return null;
     } finally {
-      await conn?.close();
+      if (conn != null) await conn.close();
     }
   }
 }

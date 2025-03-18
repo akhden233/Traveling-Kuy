@@ -1,7 +1,44 @@
 import 'package:flutter/material.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
+class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
+
+  @override
+  ForgotPasswordScreenState createState() => ForgotPasswordScreenState();
+}
+
+class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final TextEditingController emailController = TextEditingController();
+  bool isLoading = false;
+
+  void _resetPassword() async {
+    if (emailController.text.isEmpty || !emailController.text.contains("@")) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please enter a valid email!"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    setState(() {
+      isLoading = false;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Password reset link has been sent to your email."),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +62,8 @@ class ForgotPasswordScreen extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               TextField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.email, color: Colors.grey),
                   filled: true,
@@ -47,13 +86,14 @@ class ForgotPasswordScreen extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 15),
                   ),
-                  onPressed: () {
-                    // Tambahkan logika reset password di sini
-                  },
-                  child: const Text(
-                    "Reset Password",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
+                  onPressed: isLoading ? null : _resetPassword,
+                  child:
+                      isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                            "Reset Password",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
                 ),
               ),
               const SizedBox(height: 20),

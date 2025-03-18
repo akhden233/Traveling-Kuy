@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:dotenv/dotenv.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -31,12 +32,14 @@ Middleware authMiddleware(){
     return (Request request) async {
       final authHeader = request.headers['Authorization'];
       if (authHeader == null || !authHeader.startsWith('Bearer ')) {
-        return Response.forbidden('Unauthorized: Token required');
+        return Response.forbidden(jsonEncode({'error': 'Unauthorized: Token required'}),
+        headers: {'Content-Type': 'application/json'});
       }
 
       final token = authHeader.substring(7); // ambil token setelah 'bearer'
       if (!Validators.isValidToken(token)) {
-        return Response.forbidden('Unauthorized: Invalid Token');
+        return Response.forbidden(jsonEncode({'error': 'Unauthorized: Invalid Token'}),
+        headers: {'Content-Type': 'application/json'});
       }
       return innerHandler(request);
     };
