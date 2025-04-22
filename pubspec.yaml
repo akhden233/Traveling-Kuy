@@ -51,10 +51,13 @@ dependencies:
   shelf_router: ^1.1.4
   shelf_cors_headers: ^0.1.5
   mysql1: ^0.20.0
+  flutter_dotenv: ^5.2.1
   dotenv: ^4.2.0
+  jose: ^0.3.2
   intl: ^0.20.2
   flutter_local_notifications: ^18.0.1
   dart_jsonwebtoken: ^3.1.1
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +78,7 @@ flutter:
 
   assets:
    - assets/
+   - lib/backend/.env
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package

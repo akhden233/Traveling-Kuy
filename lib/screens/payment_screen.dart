@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import '../backend/models/destination_model.dart';
+import '../backend/utils/formatters.dart';
 
 class PaymentScreen extends StatelessWidget {
-  final Map<String, String> destination;
+  final Destination destination;
   final String packageType;
   final String price;
 
@@ -49,8 +52,8 @@ class PaymentScreen extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  destination["image"]!,
+                child: Image.memory(
+                  base64Decode(destination.imageUrl.split(',').last),
                   height: 200,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -58,7 +61,7 @@ class PaymentScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                destination["title"]!,
+                destination.name,
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -75,12 +78,12 @@ class PaymentScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                destination["description"] ?? '',
+                destination.description ?? '',
                 style: const TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 10),
               Text(
-                "Harga: $price",
+                "Harga: ${Formatters.currencyFormat.format(destination.price[packageType] ?? 0)}",
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

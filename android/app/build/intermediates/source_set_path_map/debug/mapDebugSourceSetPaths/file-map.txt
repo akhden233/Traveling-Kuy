@@ -1,0 +1,71 @@
+com.example.abp_travel.app-jetified-core-ktx-1.13.1-0 C:\Users\user\.gradle\caches\8.10.2\transforms\00b31dc0fbd455580e7eeead676457bf\transformed\jetified-core-ktx-1.13.1\res
+com.example.abp_travel.app-appcompat-1.1.0-1 C:\Users\user\.gradle\caches\8.10.2\transforms\0ddea3c1a9257803b51d428ad5bf5d58\transformed\appcompat-1.1.0\res
+com.example.abp_travel.app-jetified-play-services-maps-18.2.0-2 C:\Users\user\.gradle\caches\8.10.2\transforms\13f55a7289b4773fe5313985bab071d3\transformed\jetified-play-services-maps-18.2.0\res
+com.example.abp_travel.app-jetified-activity-ktx-1.9.3-3 C:\Users\user\.gradle\caches\8.10.2\transforms\1fcc4ac2810e71033e98e8eab6c6b64a\transformed\jetified-activity-ktx-1.9.3\res
+com.example.abp_travel.app-jetified-android-maps-utils-3.6.0-4 C:\Users\user\.gradle\caches\8.10.2\transforms\1ffa30523421263d318a5b37d76e476b\transformed\jetified-android-maps-utils-3.6.0\res
+com.example.abp_travel.app-transition-1.4.1-5 C:\Users\user\.gradle\caches\8.10.2\transforms\2836b6333a020bb893823225fa2029ee\transformed\transition-1.4.1\res
+com.example.abp_travel.app-core-runtime-2.2.0-6 C:\Users\user\.gradle\caches\8.10.2\transforms\2bf62ead11918970923f4ad486ba3194\transformed\core-runtime-2.2.0\res
+com.example.abp_travel.app-jetified-startup-runtime-1.1.1-7 C:\Users\user\.gradle\caches\8.10.2\transforms\2ed27063b1d575527a12b2cd9313797f\transformed\jetified-startup-runtime-1.1.1\res
+com.example.abp_travel.app-jetified-datastore-preferences-release-8 C:\Users\user\.gradle\caches\8.10.2\transforms\310a6f5a0fcc25872112a28b6545b9ef\transformed\jetified-datastore-preferences-release\res
+com.example.abp_travel.app-jetified-window-1.2.0-9 C:\Users\user\.gradle\caches\8.10.2\transforms\324a7f30601e4ce4bb52a2c1da787222\transformed\jetified-window-1.2.0\res
+com.example.abp_travel.app-jetified-credentials-1.2.0-rc01-10 C:\Users\user\.gradle\caches\8.10.2\transforms\32a23fbe28c56c7667851f5675f28817\transformed\jetified-credentials-1.2.0-rc01\res
+com.example.abp_travel.app-jetified-fragment-ktx-1.7.1-11 C:\Users\user\.gradle\caches\8.10.2\transforms\3f35850559d7d75b273f67404ca53c6b\transformed\jetified-fragment-ktx-1.7.1\res
+com.example.abp_travel.app-preference-1.2.1-12 C:\Users\user\.gradle\caches\8.10.2\transforms\3f920e93cfc749423ce5dadbdb684449\transformed\preference-1.2.1\res
+com.example.abp_travel.app-jetified-window-java-1.2.0-13 C:\Users\user\.gradle\caches\8.10.2\transforms\406f59a77cb1ea2c2c738b30a70cb6e8\transformed\jetified-window-java-1.2.0\res
+com.example.abp_travel.app-slidingpanelayout-1.2.0-14 C:\Users\user\.gradle\caches\8.10.2\transforms\4a2bca9f2bcdcb285294d79aef01f8ea\transformed\slidingpanelayout-1.2.0\res
+com.example.abp_travel.app-jetified-datastore-release-15 C:\Users\user\.gradle\caches\8.10.2\transforms\4f30fbd94a0452fa12f80ac03f20ad4d\transformed\jetified-datastore-release\res
+com.example.abp_travel.app-jetified-lifecycle-runtime-ktx-2.7.0-16 C:\Users\user\.gradle\caches\8.10.2\transforms\50890ad30ddb6164c133df0b3f6fef9f\transformed\jetified-lifecycle-runtime-ktx-2.7.0\res
+com.example.abp_travel.app-jetified-profileinstaller-1.3.1-17 C:\Users\user\.gradle\caches\8.10.2\transforms\6044bc76f0f06a4abae0dc14ed853132\transformed\jetified-profileinstaller-1.3.1\res
+com.example.abp_travel.app-jetified-lifecycle-viewmodel-savedstate-2.7.0-18 C:\Users\user\.gradle\caches\8.10.2\transforms\672a7b7c0488d21fd9444f99feaebfd0\transformed\jetified-lifecycle-viewmodel-savedstate-2.7.0\res
+com.example.abp_travel.app-jetified-datastore-core-release-19 C:\Users\user\.gradle\caches\8.10.2\transforms\681283a96b60d4bf737b14a71883c9e6\transformed\jetified-datastore-core-release\res
+com.example.abp_travel.app-lifecycle-livedata-core-2.7.0-20 C:\Users\user\.gradle\caches\8.10.2\transforms\7483dbcecf0517979569e5ad0ee7f54c\transformed\lifecycle-livedata-core-2.7.0\res
+com.example.abp_travel.app-jetified-facebook-login-17.0.1-21 C:\Users\user\.gradle\caches\8.10.2\transforms\7538ffd107c8a362786dd8eac50c2b6a\transformed\jetified-facebook-login-17.0.1\res
+com.example.abp_travel.app-lifecycle-viewmodel-2.7.0-22 C:\Users\user\.gradle\caches\8.10.2\transforms\79e85b3a27394521cdf1f0b02142d955\transformed\lifecycle-viewmodel-2.7.0\res
+com.example.abp_travel.app-jetified-activity-1.9.3-23 C:\Users\user\.gradle\caches\8.10.2\transforms\7ae43a3a4da5f2db7dce903931771168\transformed\jetified-activity-1.9.3\res
+com.example.abp_travel.app-media-1.1.0-24 C:\Users\user\.gradle\caches\8.10.2\transforms\7e1616599af94cd17512ded396fee12b\transformed\media-1.1.0\res
+com.example.abp_travel.app-jetified-core-common-2.0.3-25 C:\Users\user\.gradle\caches\8.10.2\transforms\804bce9fc411b829826e93168465b47b\transformed\jetified-core-common-2.0.3\res
+com.example.abp_travel.app-cardview-1.0.0-26 C:\Users\user\.gradle\caches\8.10.2\transforms\85024d9ee356d3dec2e5cb7fca59c022\transformed\cardview-1.0.0\res
+com.example.abp_travel.app-fragment-1.7.1-27 C:\Users\user\.gradle\caches\8.10.2\transforms\90d7c0ac90e644d0bc214fe73f02737d\transformed\fragment-1.7.1\res
+com.example.abp_travel.app-browser-1.5.0-28 C:\Users\user\.gradle\caches\8.10.2\transforms\964a11e46664d3486e664c0bc00fc0cd\transformed\browser-1.5.0\res
+com.example.abp_travel.app-core-1.13.1-29 C:\Users\user\.gradle\caches\8.10.2\transforms\9a1d87d4fde44edaa6b43633067d3990\transformed\core-1.13.1\res
+com.example.abp_travel.app-recyclerview-1.0.0-30 C:\Users\user\.gradle\caches\8.10.2\transforms\a837f210f7bd756eb1bc8c0688047d68\transformed\recyclerview-1.0.0\res
+com.example.abp_travel.app-lifecycle-runtime-2.7.0-31 C:\Users\user\.gradle\caches\8.10.2\transforms\ab75977cf76421db587f77986cbef15c\transformed\lifecycle-runtime-2.7.0\res
+com.example.abp_travel.app-jetified-savedstate-ktx-1.2.1-32 C:\Users\user\.gradle\caches\8.10.2\transforms\b1ee9bbb4c8027765455813b6404c30f\transformed\jetified-savedstate-ktx-1.2.1\res
+com.example.abp_travel.app-coordinatorlayout-1.0.0-33 C:\Users\user\.gradle\caches\8.10.2\transforms\b5dfbf20d514f808190d5fe40fa448cb\transformed\coordinatorlayout-1.0.0\res
+com.example.abp_travel.app-jetified-annotation-experimental-1.4.0-34 C:\Users\user\.gradle\caches\8.10.2\transforms\b5ffc71d3b5caca90de4fe82587d475c\transformed\jetified-annotation-experimental-1.4.0\res
+com.example.abp_travel.app-jetified-tracing-1.2.0-35 C:\Users\user\.gradle\caches\8.10.2\transforms\b7a68d8a9b5076362a97c535027499ec\transformed\jetified-tracing-1.2.0\res
+com.example.abp_travel.app-jetified-lifecycle-process-2.7.0-36 C:\Users\user\.gradle\caches\8.10.2\transforms\bc58c393b9db8d989823c91b4766dd1a\transformed\jetified-lifecycle-process-2.7.0\res
+com.example.abp_travel.app-jetified-play-services-basement-18.4.0-37 C:\Users\user\.gradle\caches\8.10.2\transforms\cbd73bec149f213d282cc409481d3976\transformed\jetified-play-services-basement-18.4.0\res
+com.example.abp_travel.app-jetified-play-services-auth-21.0.0-38 C:\Users\user\.gradle\caches\8.10.2\transforms\cebb46eedda53bdfbc84d201456218a6\transformed\jetified-play-services-auth-21.0.0\res
+com.example.abp_travel.app-jetified-facebook-common-17.0.1-39 C:\Users\user\.gradle\caches\8.10.2\transforms\cfbdf24f906b4232ed0189dba6f745fa\transformed\jetified-facebook-common-17.0.1\res
+com.example.abp_travel.app-jetified-lifecycle-livedata-core-ktx-2.7.0-40 C:\Users\user\.gradle\caches\8.10.2\transforms\d0ac8e6d2e19f9c70fd6f23a52fd74c8\transformed\jetified-lifecycle-livedata-core-ktx-2.7.0\res
+com.example.abp_travel.app-jetified-security-crypto-1.1.0-alpha06-41 C:\Users\user\.gradle\caches\8.10.2\transforms\d12b92f656fd9c521d815a0fec2cbbf1\transformed\jetified-security-crypto-1.1.0-alpha06\res
+com.example.abp_travel.app-jetified-lifecycle-viewmodel-ktx-2.7.0-42 C:\Users\user\.gradle\caches\8.10.2\transforms\d8de8df464b439c28d11ef359593628e\transformed\jetified-lifecycle-viewmodel-ktx-2.7.0\res
+com.example.abp_travel.app-jetified-core-1.0.0-43 C:\Users\user\.gradle\caches\8.10.2\transforms\da2a763613d460fdfba8c4dd4aeb79e9\transformed\jetified-core-1.0.0\res
+com.example.abp_travel.app-jetified-play-services-base-18.3.0-44 C:\Users\user\.gradle\caches\8.10.2\transforms\da2f02ced6d6bb01be160d5f0ea5e7ea\transformed\jetified-play-services-base-18.3.0\res
+com.example.abp_travel.app-jetified-savedstate-1.2.1-45 C:\Users\user\.gradle\caches\8.10.2\transforms\e3b4bd34aa56379b17be14f90d1b5744\transformed\jetified-savedstate-1.2.1\res
+com.example.abp_travel.app-jetified-appcompat-resources-1.1.0-46 C:\Users\user\.gradle\caches\8.10.2\transforms\e9da2af7d52f46707183a98c9910e586\transformed\jetified-appcompat-resources-1.1.0\res
+com.example.abp_travel.app-jetified-firebase-common-21.0.0-47 C:\Users\user\.gradle\caches\8.10.2\transforms\ef070dcf2e357bda23fc9f3eea3ff33d\transformed\jetified-firebase-common-21.0.0\res
+com.example.abp_travel.app-jetified-credentials-play-services-auth-1.2.0-rc01-48 C:\Users\user\.gradle\caches\8.10.2\transforms\f5b3bbf133d7a3ef574731a7f9de2951\transformed\jetified-credentials-play-services-auth-1.2.0-rc01\res
+com.example.abp_travel.app-debug-49 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.5.1\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-50 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.12.1\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-51 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_facebook_auth-7.1.1\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-52 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_local_notifications-18.0.1\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-53 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_plugin_android_lifecycle-2.0.27\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-54 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_secure_storage-9.2.4\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-55 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\fluttertoast-8.2.12\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-56 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_android-4.6.1\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-57 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\google_maps_flutter_android-2.14.13\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-58 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\google_sign_in_android-6.1.35\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-59 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+21\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-60 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_android-2.2.15\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-61 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\shared_preferences_android-2.4.7\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-debug-62 C:\Users\user\AppData\Local\Pub\Cache\hosted\pub.dev\sign_in_with_apple-6.1.4\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.abp_travel.app-pngs-63 D:\Documents\COOK\APB TUGAS\Travelling_Kuy\Traveling-Kuy\android\app\build\generated\res\pngs\debug
+com.example.abp_travel.app-res-64 D:\Documents\COOK\APB TUGAS\Travelling_Kuy\Traveling-Kuy\android\app\build\generated\res\processDebugGoogleServices
+com.example.abp_travel.app-resValues-65 D:\Documents\COOK\APB TUGAS\Travelling_Kuy\Traveling-Kuy\android\app\build\generated\res\resValues\debug
+com.example.abp_travel.app-packageDebugResources-66 D:\Documents\COOK\APB TUGAS\Travelling_Kuy\Traveling-Kuy\android\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.abp_travel.app-packageDebugResources-67 D:\Documents\COOK\APB TUGAS\Travelling_Kuy\Traveling-Kuy\android\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.abp_travel.app-debug-68 D:\Documents\COOK\APB TUGAS\Travelling_Kuy\Traveling-Kuy\android\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.example.abp_travel.app-debug-69 D:\Documents\COOK\APB TUGAS\Travelling_Kuy\Traveling-Kuy\android\app\src\debug\res
+com.example.abp_travel.app-main-70 D:\Documents\COOK\APB TUGAS\Travelling_Kuy\Traveling-Kuy\android\app\src\main\res

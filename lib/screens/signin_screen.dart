@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'package:abp_travel/backend/utils/constants/constants_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import '../backend/providers/auth_provider.dart';
 import '../screens/signup_screen.dart';
 import '../screens/forgot_password_screen.dart';
@@ -49,6 +53,8 @@ class SigninScreenState extends State<SigninScreen> {
   }
 
   void _login() async {
+    print("LOGIN BUTTON PRESSED");
+
     if (!mounted) return; // Ensure widget is still mounted
 
     setState(() {
@@ -59,42 +65,117 @@ class SigninScreenState extends State<SigninScreen> {
     String pass = passwordController.text;
 
     try {
-      final authProvider = AuthProvider();
+      // // untuk debug dari frontend
+      // final response = await http.post(
+      //   Uri.parse('$authEndpoint/login'),
+      //   headers: {"Content-Type": "application/json"},
+      //   body: jsonEncode({
+      //     "email": emailController.text.trim(),
+      //     "pass": passwordController.text.trim(),
+      //   }),
+      // );
+
+      // print("STATUS: ${response.statusCode}");
+      // print("BODY: ${response.body}");
+
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
       bool success = await authProvider.login(email, pass);
 
       if (success && authProvider.user != null) {
         // save token ke SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', authProvider.user!.token);
+
+        if (authProvider.user?.token != null) {
+          await prefs.setString('token', authProvider.user!.token);
+        } else {
+          print('[WARNING] Token kosong! Tidak disimpan.');
+        }
 
         // Save email & pass jika remember me aktif
         await _saveOrRemoveCredentials();
 
         if (!mounted) return;
-        Navigator.pushReplacement(context, 
-        MaterialPageRoute(
-          builder: (context) => HomepageScreen(
-            userEmail: authProvider.user!.email, 
-            userName: authProvider.user!.name,
-            ),
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder:
+                (context) => HomepageScreen(
+                  userEmail: authProvider.user!.email,
+                  userName: authProvider.user!.name,
+                ),
           ),
         );
       } else {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Login gagal. Periksa kembali email dan password.")),
-        );  
+          SnackBar(
+            content: Text(
+              authProvider.errorMessage ??
+                  "login gagal. Periksa kembali email dan password.",
+            ),
+          ),
+        );
       }
     } catch (e) {
+      print('[ERROR CAUGHT IN _login]: $e');
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error: ${e.toString()}")),
-      );
-    }
+      String errorMessage = "Terjadi error saat login";
 
-    setState(() {
-      isLoading = false; // Hide loading indicator
-    });
+      if (e.toString().contains('timeout')) {
+        errorMessage =
+            'Koneksi Timeout. Silahkan cek koneksi internet anda terlebih dahulu.';
+      } else if (e.toString().contains('format')) {
+        errorMessage = 'Format response tidak valid, Silahkan coba lagi';
+      } else if (e.toString().contains('Connection refused')) {
+        errorMessage = 'Tidak dapat terhubung ke server.';
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
+      );
+      // }
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false; // Hide loading indicator
+        });
+      }
+    }
+  }
+
+  void _handleGoogleAuth() async {
+    setState(() => isLoading = true);
+
+    try {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      bool success = await authProvider.authGoogle();
+
+      if (success && authProvider.user != null) {
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder:
+                (context) => HomepageScreen(
+                  userEmail: authProvider.user!.email,
+                  userName: authProvider.user!.name,
+                ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(authProvider.errorMessage ?? "Login gagal.")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Login error. Try again")));
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
+    }
   }
 
   @override
@@ -220,7 +301,10 @@ class SigninScreenState extends State<SigninScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset("assets/google.png", width: 30),
+                          GestureDetector(
+                            onTap: () => _handleGoogleAuth(),
+                            child: Image.asset("assets/google.png", width: 30),
+                          ),
                           const SizedBox(width: 20),
                           Image.asset("assets/apple.png", width: 30),
                           const SizedBox(width: 20),

@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../utils/constants.dart';
+import '../utils/constants/constants_server.dart';
 
 class ApiServices {
   // Fungsi Sign Up (Register)
@@ -9,30 +9,75 @@ class ApiServices {
     String email,
     String pass,
   ) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/register'),
-      headers: {'Content-Type': "application/json"},
-      body: jsonEncode({"name": name, "email": email, "pass": pass}),
-    );
+    try {
+      final response = await http.post(
+        Uri.parse('$authEndpoint/register'),
+        headers: {'Content-Type': "application/json"},
+        body: jsonEncode({"name": name, "email": email, "pass": pass}),
+      );
 
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      return {'error': 'Sign Up Failed', 'statusCode': response.statusCode};
+      if (response.body.isEmpty) {
+        throw Exception('Empty response from server');
+      }
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        return data;
+      } else {
+        throw Exception(data['error'] ?? 'Registration failed');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to server: $e');
     }
   }
 
   // Sign In Request
-  static Future<Map<String, dynamic>> signin(
-    String name,
-    String email,
-    String pass,
-  ) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/login'),
-      headers: {'Content-Type': "application/json"},
-      body: jsonEncode({"email": email, "pass": pass}),
-    );
-    return jsonDecode(response.body);
+  static Future<Map<String, dynamic>> signin(String email, String pass) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$authEndpoint/login'),
+        headers: {'Content-Type': "application/json"},
+        body: jsonEncode({"email": email, "pass": pass}),
+      );
+
+      if (response.body.isEmpty) {
+        throw Exception('Empty response from server');
+      }
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        return data;
+      } else {
+        throw Exception(data['error'] ?? data['message'] ?? 'Login failed');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to server: $e');
+    }
+  }
+
+  static Future<Map<String, dynamic>> loginWithGoogle(String idToken) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$authEndpoint/google'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'idToken': idToken}),
+      );
+
+      if (response.body.isEmpty) {
+        throw Exception('Empty response from server');
+      }
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        return data;
+      } else {
+        throw Exception(data['message'] ?? 'Login Google gagal');
+      }
+    } catch (e) {
+      throw Exception('Gagal login via Google: $e');
+    }
   }
 }
