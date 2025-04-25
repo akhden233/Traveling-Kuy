@@ -157,6 +157,13 @@
             </intent-filter>
         </activity>
 
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="com.travellingkuy.firebaseinitprovider"
+            android:directBootAware="true"
+            android:exported="false"
+            android:initOrder="100" />
+
         <service
             android:name="com.baseflow.geolocator.GeolocatorLocationService"
             android:enabled="true"
@@ -240,28 +247,10 @@
             android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
             android:visibleToInstantApps="true" />
 
-        <provider
-            android:name="com.google.firebase.provider.FirebaseInitProvider"
-            android:authorities="com.travellingkuy.firebaseinitprovider"
-            android:directBootAware="true"
-            android:exported="false"
-            android:initOrder="100" />
-
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"
             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <uses-library
-            android:name="androidx.window.extensions"
-            android:required="false" />
-        <uses-library
-            android:name="androidx.window.sidecar"
-            android:required="false" />
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
         <!--
          The initialization ContentProvider will call FacebookSdk.sdkInitialize automatically
          with the application context. This config is merged in with the host app's manifest,
@@ -302,6 +291,17 @@
                 android:name="androidx.profileinstaller.ProfileInstallerInitializer"
                 android:value="androidx.startup" />
         </provider>
+
+        <uses-library
+            android:name="androidx.window.extensions"
+            android:required="false" />
+        <uses-library
+            android:name="androidx.window.sidecar"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <receiver
             android:name="androidx.profileinstaller.ProfileInstallReceiver"

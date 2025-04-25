@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../utils/constants/constants_server.dart';
+import '../utils/constants/constants_flutter.dart';
 
 class ApiServices {
   // Fungsi Sign Up (Register)
@@ -14,7 +14,7 @@ class ApiServices {
         Uri.parse('$authEndpoint/register'),
         headers: {'Content-Type': "application/json"},
         body: jsonEncode({"name": name, "email": email, "pass": pass}),
-      );
+      ).timeout(apiTO);
 
       if (response.body.isEmpty) {
         throw Exception('Empty response from server');
@@ -39,7 +39,7 @@ class ApiServices {
         Uri.parse('$authEndpoint/login'),
         headers: {'Content-Type': "application/json"},
         body: jsonEncode({"email": email, "pass": pass}),
-      );
+      ).timeout(apiTO);
 
       if (response.body.isEmpty) {
         throw Exception('Empty response from server');
@@ -63,7 +63,7 @@ class ApiServices {
         Uri.parse('$authEndpoint/google'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'idToken': idToken}),
-      );
+      ).timeout(apiTO);
 
       if (response.body.isEmpty) {
         throw Exception('Empty response from server');

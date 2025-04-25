@@ -1,14 +1,18 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 
+const bool isEmulator = false; // ubah ke true jika emulator
+
 // API Base URL
 String get baseUrl {
   if (kIsWeb) {
     return "http://127.0.0.1:5000";
   } else if (Platform.isAndroid) {
-    return "http://10.0.2.2:5000"; // emulator
+    return isEmulator
+      ? "http://10.0.2.2:5000" // emulator
+      : "http://192.168.200.229:5000"; // IP atau APP Domain    
   } else {
-    return "http://127.0.0.1:5000"; // iOS simulator or desktop dev
+    return "http://127.0.0.1:5000"; // emulator
   }
 }
 
@@ -24,4 +28,4 @@ const String tokenKey = 'auth_token';
 const String userIdKey = 'uid';
 
 //  Durasi TO
-const Duration apiTO = Duration(seconds: 15);
+const Duration apiTO = Duration(seconds: 30);

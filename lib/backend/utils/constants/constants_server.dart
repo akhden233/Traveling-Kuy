@@ -1,5 +1,5 @@
 // API base Url
-const String baseUrl = 'http://localhost:5000';
+const String baseUrl = 'http://127.0.0.1:5000';
 
 // API Endpoints
 const String authEndpoint = "$baseUrl/auth";
@@ -13,4 +13,4 @@ const String tokenKey = 'auth_token';
 const String userIdKey = 'uid';
 
 //  Durasi TO
-const Duration apiTO = Duration(seconds: 15);
+const Duration apiTO = Duration(seconds: 30);

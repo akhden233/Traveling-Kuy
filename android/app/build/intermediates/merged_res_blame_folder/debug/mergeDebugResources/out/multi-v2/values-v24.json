@@ -4,7 +4,7 @@
             "outputFile": "com.example.abp_travel.app-mergeDebugResources-66:/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\user\\.gradle\\caches\\8.10.2\\transforms\\7e1616599af94cd17512ded396fee12b\\transformed\\media-1.1.0\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\user\\.gradle\\caches\\8.10.2\\transforms\\f50f7c8557b064a895e96c8698aff3fd\\transformed\\media-1.1.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\user\\.gradle\\caches\\8.10.2\\transforms\\0ddea3c1a9257803b51d428ad5bf5d58\\transformed\\appcompat-1.1.0\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\user\\.gradle\\caches\\8.10.2\\transforms\\e8aacb2d061357c5bb5d0eeb38317593\\transformed\\appcompat-1.1.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

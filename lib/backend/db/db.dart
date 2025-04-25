@@ -33,7 +33,7 @@ class dbConn {
           db: db,
           // password: password,
         ),
-      ).timeout(const Duration(seconds: 10));
+      ).timeout(const Duration(seconds: 20));
       
       print('[DEBUG] Success to connect to DB');
       return _connection;
