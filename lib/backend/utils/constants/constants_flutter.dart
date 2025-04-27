@@ -10,7 +10,7 @@ String get baseUrl {
   } else if (Platform.isAndroid) {
     return isEmulator
       ? "http://10.0.2.2:5000" // emulator
-      : "http://192.168.200.229:5000"; // IP atau APP Domain    
+      : "http://192.168.243.229:5000"; // IP atau APP Domain    
   } else {
     return "http://127.0.0.1:5000"; // emulator
   }
@@ -22,6 +22,7 @@ String get bookingEndpoint => "$baseUrl/booking";
 String get paymentEndpoint => "$baseUrl/payment";
 String get notificationEndpoint => "$baseUrl/notification";
 String get destinationEndpoint => "$baseUrl/destination";
+String get userProfileEndpoint => "$baseUrl/user";
 
 // Key
 const String tokenKey = 'auth_token';

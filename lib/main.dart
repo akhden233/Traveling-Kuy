@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'backend/providers/auth_provider.dart';
 import 'backend/providers/destination_provider.dart';
+import 'backend/providers/userProfile_provider.dart';
 import '../screens/travel_screen.dart';
 
 void main() async {
@@ -30,6 +31,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => DestinationProvider()),
+        ChangeNotifierProvider(create: (_) => UserprofileProvider()),
       ],
       child: TravelKuyApp(),
     ),

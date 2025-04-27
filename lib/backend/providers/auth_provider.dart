@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 import 'package:google_sign_in/google_sign_in.dart';
 import '../models/user_model.dart' as local;
 import '../utils/constants/constants_flutter.dart';
+import '../utils/validators.dart';
 
 class AuthProvider extends ChangeNotifier {
   // get model user
@@ -20,6 +21,11 @@ class AuthProvider extends ChangeNotifier {
   // throw error message to frontend
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
+
+  void setUser(local.User user) {
+    _user = user;
+    notifyListeners();
+  }
 
   // Firebase google auth
   final fire_auth.FirebaseAuth _firebaseAuth = fire_auth.FirebaseAuth.instance;
@@ -126,13 +132,17 @@ class AuthProvider extends ChangeNotifier {
         await prefs.setString('name', data['name']);
         await prefs.setString('email', email);
         await prefs.setString('photoUrl', data['photoUrl']?.toString() ?? '');
+        await prefs.setString('firebase_id', data['firebase_id'] ?? '');
 
-        _user = local.User(
-          uid: data['uid'],
-          name: data['name'],
-          email: email,
-          token: data['token'],
-          photoUrl: data['photoUrl'] ?? '',
+        setUser(
+          local.User(
+            uid: data['uid'],
+            firebase_id: data['firebase_id'] ?? '',
+            name: data['name'],
+            email: email,
+            token: data['token'],
+            photoUrl: data['photoUrl']?.toString() ?? '',
+          ),
         );
         notifyListeners();
         return true;

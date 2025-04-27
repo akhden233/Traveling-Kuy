@@ -2,21 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
+import 'package:provider/provider.dart';
 import '../backend/utils/constants/constants_flutter.dart';
 import '../backend/utils/formatters.dart';
 import '../backend/models/destination_model.dart';
 import '../screens/user_profile.dart';
 import '../screens/payment_screen.dart';
+import '../backend/providers/auth_provider.dart';
 
 class HomepageScreen extends StatefulWidget {
-  final String userEmail;
-  final String userName;
-
-  const HomepageScreen({
-    super.key,
-    required this.userEmail,
-    required this.userName,
-  });
+  const HomepageScreen({super.key});
 
   @override
   HomepageScreenState createState() => HomepageScreenState();
@@ -33,7 +28,7 @@ class HomepageScreenState extends State<HomepageScreen> {
   void initState() {
     super.initState();
     fetchDestination().then((_) {
-      // _updateMarkers(); // Fungsi update marker sekarang dikomentari
+      // _updateMarkers(); // Fungsi update marker
     });
   }
 
@@ -161,6 +156,17 @@ class HomepageScreenState extends State<HomepageScreen> {
   @override
   Widget build(BuildContext context) {
     print("🛠 BUILD CALLED - Filtered Destinations: ${filteredDestinations.length}"); // DEBUG POINT #3
+    final authACC = Provider.of<AuthProvider>(context);
+    final user = authACC.user;
+
+    if (user == null) {
+      return Scaffold(
+        body: Center(
+          child: Text('User tidak ditemukan. Silahkan Login'),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -179,16 +185,12 @@ class HomepageScreenState extends State<HomepageScreen> {
                             context,
                             MaterialPageRoute(
                               builder:
-                                  (context) => UserProfileScreen(
-                                    userEmail: widget.userEmail,
-                                    userName: widget.userName,
-                                  ),
+                                  (context) => const UserProfileScreen(),
                             ),
                           );
                         },
                         child: ValueListenableBuilder<String?>(
-                          valueListenable:
-                              UserProfileScreenState.profileImageNotifier,
+                          valueListenable: profileImageNotifier,
                           builder: (context, profileImage, child) {
                             return CircleAvatar(
                               radius: 25,
@@ -207,14 +209,14 @@ class HomepageScreenState extends State<HomepageScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.userName,
+                            user.name,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            widget.userEmail,
+                            user.email,
                             style: const TextStyle(
                               fontSize: 12,
                               color: Colors.grey,

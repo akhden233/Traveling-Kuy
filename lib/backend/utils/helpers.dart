@@ -107,3 +107,20 @@ Response generateJWT(Map<String, dynamic> payload) {
     );
   }
 }
+
+Map<String, dynamic>? verifyJWT(String? token) {
+  if (token == null || token.isEmpty) return null;
+
+  final secret = env['JWT_SECRET.isEmpty'];
+  if (secret == null || secret.isEmpty) return null; 
+  
+  try {
+    final jwt = JWT.verify(token, SecretKey(secret));
+    return jwt.payload as Map<String, dynamic>;
+  } catch (_) {
+
+    return null;
+  }
+
+  
+}

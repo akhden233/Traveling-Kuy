@@ -7,6 +7,7 @@ const String bookingEndpoint = "$baseUrl/booking";
 const String paymentEndpoint = "$baseUrl/payment";
 const String notificationEndpoint = "$baseUrl/notification";
 const String destinationEndpoint = "$baseUrl/destination";
+const String userProfileEndpoint = "$baseUrl/user";
 
 // Key
 const String tokenKey = 'auth_token';

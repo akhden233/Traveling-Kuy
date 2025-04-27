@@ -99,10 +99,7 @@ class SigninScreenState extends State<SigninScreen> {
           context,
           MaterialPageRoute(
             builder:
-                (context) => HomepageScreen(
-                  userEmail: authProvider.user!.email,
-                  userName: authProvider.user!.name,
-                ),
+                (context) => HomepageScreen(),
           ),
         );
       } else {
@@ -156,10 +153,7 @@ class SigninScreenState extends State<SigninScreen> {
           context,
           MaterialPageRoute(
             builder:
-                (context) => HomepageScreen(
-                  userEmail: authProvider.user!.email,
-                  userName: authProvider.user!.name,
-                ),
+                (context) => HomepageScreen(),
           ),
         );
       } else {

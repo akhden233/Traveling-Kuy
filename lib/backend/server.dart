@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:developer' as dev;
 import 'package:mysql1/mysql1.dart' show Blob;
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
@@ -422,6 +423,240 @@ void main() async {
         print('[ERROR] Failed to fetch destinations: $e\n$stackTrace');
         return Response.internalServerError(
           body: jsonEncode({'error': 'Failed to fetch destinations: $e'}),
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        );
+      } finally {
+        try {
+          if (conn != null) {
+            await conn.close();
+          }
+        } catch (e) {
+          print('[ERROR] Gagal menutup koneksi: $e');
+        }
+      }
+    });
+
+    // Endpoint untuk update profil pengguna
+    router.put('/user/profile', (Request request) async {
+      print('[PUT] /user/profile - Update user profile attempt');
+      var conn;
+
+      try {
+        conn = await dbConn.getConnection();
+        final body = await request.readAsString();
+        // print('[DEBUG] Request Body: $body');
+
+        if (body.isEmpty) {
+          print('[ERROR] Empty request body');
+          return Response.badRequest(
+            body: jsonEncode({'error': 'Request body kosong'}),
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            },
+          );
+        }
+
+        final payload = jsonDecode(body);
+        print('[DEBUG] Payload received');
+
+        final uid = payload['uid'];
+        final name = payload['name']?.trim();
+        final email = payload['email']?.trim();
+        final currentPassword = payload['currentPassword']?.trim();
+        final newPassword = payload['newPassword']?.trim();
+        final photoUrl = payload['photoUrl'];
+
+        // print('[DEBUG] Payload: $payload');
+
+        if (uid == null || name == null || email == null) {
+          print('[ERROR] data UID/Email/Name missing');
+          return Response.badRequest(
+            body: jsonEncode({'UID, Name, Email harus diisi'}),
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            },
+          );
+        }
+
+        if (name == null || name.isEmpty) {
+          print('[ERROR] Data Name missing');
+          return Response.badRequest(
+            body: jsonEncode({'error': 'Name tidak boleh kosong'}),
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            },
+          );
+        }
+
+        if (email == null || email.isEmpty) {
+          print('[ERROR] Data Email missing');
+          return Response.badRequest(
+            body: jsonEncode({'error': 'Email tidak boleh kosong'}),
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            },
+          );
+        }
+
+        // Validasi email atau data lainnya (cek duplikasi email)
+        final checkEmail = await conn.query(
+          'SELECT email FROM users WHERE email = ? AND uid != ?',
+          [email, uid],
+        );
+
+        if (checkEmail.isNotEmpty) {
+          print('[ERROR] Email sudah terdaftar');
+          return Response(
+            409,
+            body: jsonEncode({'error': 'Email sudah terdaftar'}),
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            },
+          );
+        }
+
+        // get password hash from db
+        final result = await conn.query(
+          'SELECT pass FROM users WHERE uid = ?',
+          [uid],
+        );
+
+        // if (newPassword != null && currentPassword == null) {
+        //   print('[ERROR] Current password required to change password');
+        //   return Response.badRequest(
+        //     body: jsonEncode({
+        //       'error': 'Current password harus diisi untuk mengganti password',
+        //     }),
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //       'Access-Control-Allow-Origin': '*',
+        //     },
+        //   );
+        // }
+
+        if (result.isEmpty) {
+          print('[ERROR] User not Found');
+          return Response(
+            404,
+            body: jsonEncode({'error': 'User not Found'}),
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            },
+          );
+        }
+
+        final currentHash = result.first['pass'] as String;
+
+        String? updatePass;
+        if (newPassword != null && newPassword.isNotEmpty) {
+          if (currentPassword == null || currentPassword.isEmpty){
+            print('[ERROR] current Password tidak diisi');
+            return Response.badRequest(
+              body: jsonEncode({'error': 'currentPassword harus diisi'}),
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',  
+              },
+            );
+          }
+        }
+
+        // cek kecocokan password
+        if (newPassword != null && newPassword.isNotEmpty) {
+          final passHash = Helpers.hashedPass(currentPassword);
+          if (passHash != currentHash) {
+            print('[ERROR] Password lama salah');
+            return Response(
+              403,
+              body: jsonEncode({'error': 'Password lama salah'}),
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+              },
+            );
+          }
+        }
+
+        // Hash password baru (update)
+        if (newPassword != null && newPassword.isNotEmpty) {
+          if (newPassword.length < 8) {
+            print('[ERROR] Password baru minimal 8 karakter');
+            return Response.badRequest(
+              body: jsonEncode({'error': 'Password baru minimal 8 karakter'}),
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+              },
+            );
+          }
+          updatePass = Helpers.hashedPass(newPassword);
+        }
+
+        Uint8List? photoByte;
+        if (photoUrl != null && photoUrl.isNotEmpty) {
+          try {
+            // cek data (data:image/png;base64,xxxxx)
+            final base64t =
+                photoUrl.contains(',') ? photoUrl.split(',').last : photoUrl;
+            photoByte = base64Decode(base64t);
+            print(
+              '[DEBUG] Photo decoded successfully, size: ${photoByte.length} bytes',
+            );
+          } catch (e) {
+            dev.log('[ERROR] Gagal decode base64: $e');
+            return Response.badRequest(
+              body: jsonEncode({'error': 'Format photoUrl tidak valid'}),
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',  
+              },
+            );
+          }
+        }
+
+        // Query update
+        String sql;
+        List<dynamic> params;
+
+        if (updatePass != null && photoByte != null) {
+          sql =
+              'UPDATE users SET name = ?, email = ?, pass = ?, photoUrl = ? WHERE uid = ?';
+          params = [name, email, updatePass, photoByte, uid];
+        } else if (updatePass != null) {
+          sql = 'UPDATE users SET name = ?, email = ?, pass = ? WHERE uid = ?';
+          params = [name, email, updatePass, uid];
+        } else if (photoByte != null) {
+          sql =
+              'UPDATE users SET name = ?, email = ?, photoUrl = ? WHERE uid = ?';
+          params = [name, email, photoByte, uid];
+        } else {
+          sql = 'UPDATE users SET name = ?, email = ? WHERE uid = ?';
+          params = [name, email, uid];
+        }
+
+        await conn.query(sql, params);
+
+        print('[SUCCESS] User profile updated: $email');
+        return Response.ok(
+          jsonEncode({'message': 'Profil berhasil diperbarui'}),
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        );
+      } catch (e, stackTrace) {
+        print('[ERROR] Update profile failed: $e\n$stackTrace');
+        return Response.internalServerError(
+          body: jsonEncode({'error': 'Gagal memperbarui profil: $e'}),
           headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',

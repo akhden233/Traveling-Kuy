@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
+import 'dart:developer' as dev;
 import '../services/auth_services.dart';
 import '../utils/helpers.dart';
 import '../utils/validators.dart';
@@ -50,8 +51,9 @@ class AuthRoutes {
               headers: {'Content-Type': 'application/json'},
             );
       } catch (e) {
+        dev.log('[ERROR] Gagal memproses request: $e');
         return Response.internalServerError(
-          body: jsonEncode({'error': 'Gagal memproses request: $e'}),
+          body: jsonEncode({'error': 'Gagal memproses request'}),
           headers: {'Content-Type': 'application/json'},
         );
       }
@@ -178,6 +180,7 @@ class AuthRoutes {
         );
       }
     });
+
     return router;
   }
 }

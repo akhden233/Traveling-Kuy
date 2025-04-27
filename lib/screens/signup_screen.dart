@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 import '../backend/providers/auth_provider.dart';
 import '../screens/signin_screen.dart';
+import '../backend/utils/validators.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -30,6 +31,17 @@ class SignupScreenState extends State<SignupScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("All fields must be filled!"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Validasi Password
+    if (!Validators.isValidPassword(passwordController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password must be at least 8 characters, include one uppercase letter and one number.'),
           backgroundColor: Colors.red,
         ),
       );

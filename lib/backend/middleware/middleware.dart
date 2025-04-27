@@ -43,7 +43,7 @@ Middleware loggingMiddleware() {
 Middleware authMiddleware() {
   return (Handler innerHandler) {
     return (Request request) async {
-      var conn = await dbConn.getConnection();
+      var conn;
 
       if (request.method == 'OPTIONS') {
         return Response.ok('OPTIONS', headers: _corsHeaders);
@@ -86,8 +86,17 @@ Middleware authMiddleware() {
       }
 
       try {
+        // Connect DB
+        conn = await dbConn.getConnection();
+
         // Decode token JWT LOKAL
-        final jwtSecret = env['JWT_SECRET'] ?? 'b18ee2c67d22087c111cf77727034a0ee607d1448554131017c218abbf5b80c2';
+        final jwtSecret = env['JWT_SECRET'];
+        
+        // cek token jwt
+        if (jwtSecret == null) {
+          throw Exception('JWT_SECRET is not set in .env file');
+        }
+
         final jwt = JWT.verify(token, SecretKey(jwtSecret));
         final payload = jwt.payload as Map<String, dynamic>;
 
@@ -116,6 +125,9 @@ Middleware authMiddleware() {
         );
       } catch (_) {
         try {
+          // Connect DB
+          conn = await dbConn.getConnection();
+          
           // Decode token Firebase untuk payload
           final tokenVerifier = FirebaseTokenVerifier();
           final claims = await tokenVerifier.verify(token);
