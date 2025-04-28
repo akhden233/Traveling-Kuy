@@ -14,7 +14,7 @@ class Validators {
   static bool isValidPassword(String pass) {
     // minimal 8 karakter (huruf dan angka)
     return pass.length >= 8 &&
-        // RegExp(r'[A-Z]').hasMatch(pass) &&
+        RegExp(r'[A-Z]').hasMatch(pass) &&
         RegExp(r'[0-9]').hasMatch(pass);
   }
 

@@ -59,12 +59,13 @@ class HomepageScreenState extends State<HomepageScreen> {
       print("✅ DATA FETCHED: $data"); // DEBUG POINT #1
 
       setState(() {
-        destinations =
-            data.map((item) => Destination.fromJson(item)).toList();
+        destinations = data.map((item) => Destination.fromJson(item)).toList();
         filteredDestinations = List.from(destinations);
       });
 
-      print("✅ DESTINATIONS PARSED: ${destinations.length} item(s)"); // DEBUG POINT #2
+      print(
+        "✅ DESTINATIONS PARSED: ${destinations.length} item(s)",
+      ); // DEBUG POINT #2
     } else {
       print('Gagal memuat destinasi: ${response.statusCode}');
     }
@@ -74,9 +75,8 @@ class HomepageScreenState extends State<HomepageScreen> {
     List<Destination> results =
         destinations
             .where(
-              (destination) => destination.name.toLowerCase().contains(
-                query.toLowerCase(),
-              ),
+              (destination) =>
+                  destination.name.toLowerCase().contains(query.toLowerCase()),
             )
             .toList();
 
@@ -134,13 +134,13 @@ class HomepageScreenState extends State<HomepageScreen> {
                   color: Color.fromRGBO(47, 73, 44, 1),
                 ),
               ),
-                const SizedBox(height: 5),
-                Text(
-                  "Package: ${Formatters.currencyFormat.format(destination.price["Package"])}",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(47, 73, 44, 1),
+              const SizedBox(height: 5),
+              Text(
+                "Package: ${Formatters.currencyFormat.format(destination.price["Package"])}",
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(47, 73, 44, 1),
                 ),
               ),
               const SizedBox(height: 20),
@@ -155,15 +155,15 @@ class HomepageScreenState extends State<HomepageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("🛠 BUILD CALLED - Filtered Destinations: ${filteredDestinations.length}"); // DEBUG POINT #3
+    print(
+      "🛠 BUILD CALLED - Filtered Destinations: ${filteredDestinations.length}",
+    ); // DEBUG POINT #3
     final authACC = Provider.of<AuthProvider>(context);
     final user = authACC.user;
 
     if (user == null) {
       return Scaffold(
-        body: Center(
-          child: Text('User tidak ditemukan. Silahkan Login'),
-        ),
+        body: Center(child: Text('User tidak ditemukan. Silahkan Login')),
       );
     }
 
@@ -184,23 +184,48 @@ class HomepageScreenState extends State<HomepageScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder:
-                                  (context) => const UserProfileScreen(),
+                              builder: (context) => const UserProfileScreen(),
                             ),
                           );
                         },
                         child: ValueListenableBuilder<String?>(
                           valueListenable: profileImageNotifier,
-                          builder: (context, profileImage, child) {
-                            return CircleAvatar(
-                              radius: 25,
-                              backgroundImage:
-                                  profileImage != null
-                                      ? FileImage(File(profileImage))
-                                      : AssetImage("assets/avatar_fullname.png")
-                                          as ImageProvider,
-                              backgroundColor: Colors.white,
-                            );
+                          builder: (context, profileImageBase64, child) {
+                            if (profileImageBase64 != null &&
+                                profileImageBase64.isNotEmpty) {
+                              try {
+                                final decodedBytes = base64Decode(
+                                  profileImageBase64
+                                      .split(',')
+                                      .last, // Buang header kalau ada
+                                );
+                                return CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage: MemoryImage(decodedBytes),
+                                  backgroundColor: Colors.white,
+                                );
+                              } catch (e) {
+                                print(
+                                  "⚠️ Error decoding base64 profile image: $e",
+                                );
+                                // Kalau error decoding, fallback ke asset
+                                return const CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage: AssetImage(
+                                    "assets/avatar_fullname.png",
+                                  ),
+                                  backgroundColor: Colors.white,
+                                );
+                              }
+                            } else {
+                              return const CircleAvatar(
+                                radius: 25,
+                                backgroundImage: AssetImage(
+                                  "assets/avatar_fullname.png",
+                                ),
+                                backgroundColor: Colors.white,
+                              );
+                            }
                           },
                         ),
                       ),
@@ -274,7 +299,9 @@ class HomepageScreenState extends State<HomepageScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       itemCount: filteredDestinations.length,
                       itemBuilder: (context, index) {
-                        print("📦 RENDERING CARD: ${filteredDestinations[index].name}"); // DEBUG POINT #4
+                        print(
+                          "📦 RENDERING CARD: ${filteredDestinations[index].name}",
+                        ); // DEBUG POINT #4
                         return GestureDetector(
                           onTap:
                               () => _showDestinationDetails(
@@ -294,7 +321,11 @@ class HomepageScreenState extends State<HomepageScreen> {
                                     top: Radius.circular(15),
                                   ),
                                   child: Image.memory(
-                                    base64Decode(filteredDestinations[index].imageUrl.split(',').last),
+                                    base64Decode(
+                                      filteredDestinations[index].imageUrl
+                                          .split(',')
+                                          .last,
+                                    ),
                                     height: 150,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
@@ -323,7 +354,10 @@ class HomepageScreenState extends State<HomepageScreen> {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       Text(
-                                        Formatters.currencyFormat.format(filteredDestinations[index].price["Only-Ticket"]),
+                                        Formatters.currencyFormat.format(
+                                          filteredDestinations[index]
+                                              .price["Only-Ticket"],
+                                        ),
                                         style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -360,19 +394,21 @@ class PriceOptionCard extends StatelessWidget {
       Navigator.pop(context);
     }
 
-    String price = destination.price[packageType] != null
-        ? destination.price[packageType]!.toStringAsFixed(0)
-        : "Harga tidak tersedia";
+    String price =
+        destination.price[packageType] != null
+            ? destination.price[packageType]!.toStringAsFixed(0)
+            : "Harga tidak tersedia";
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (context.mounted) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => PaymentScreen(
-              destination: destination,
-              packageType: packageType,
-              price: price,
-            ),
+            builder:
+                (context) => PaymentScreen(
+                  destination: destination,
+                  packageType: packageType,
+                  price: price,
+                ),
           ),
         );
       }
@@ -424,4 +460,3 @@ class PriceOptionCard extends StatelessWidget {
     );
   }
 }
-

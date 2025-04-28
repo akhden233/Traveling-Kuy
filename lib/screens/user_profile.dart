@@ -134,7 +134,8 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                 : null,
       );
 
-      if (!mounted) return; // Cek apakah widget masih ada sebelum menampilkan SnackBar
+      if (!mounted)
+        return; // Cek apakah widget masih ada sebelum menampilkan SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Profile updated successfully!"),
@@ -174,6 +175,12 @@ class UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Call provider
+    final userProvider = Provider.of<UserprofileProvider>(
+      context,
+      listen: true,
+    );
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -194,30 +201,70 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                           radius: 50,
                           backgroundImage: FileImage(_profileImageFile!),
                         );
-                      } else if (profileImage != null &&
-                          File(profileImage).existsSync()) {
-                        return CircleAvatar(
-                          radius: 50,
-                          backgroundImage: FileImage(File(profileImage)),
-                        );
-                      } else {
-                        return CircleAvatar(
-                          radius: 50,
-                          backgroundColor: const Color.fromRGBO(47, 73, 44, 1),
-                          // backgroundImage:
-                          //     profileImage != null
-                          //         ? FileImage(File(profileImage))
-                          //         : null,
-                          child: Icon(
-                            Icons.person,
-                            size: 50,
-                            color: Colors.white,
-                          ),
-                        );
+                      } else if (profileImage != null) {
+                        if (Uri.parse(profileImage).isAbsolute) {
+                          // Kalau URL
+                          return CircleAvatar(
+                            radius: 50,
+                            backgroundImage: NetworkImage(profileImage),
+                          );
+                        } else if (File(profileImage).existsSync()) {
+                          // Kalau path lokal
+                          return CircleAvatar(
+                            radius: 50,
+                            backgroundImage: FileImage(File(profileImage)),
+                          );
+                        } else {
+                          // **Kalau Base64**
+                          try {
+                            final decodedBytes = base64Decode(profileImage);
+                            return CircleAvatar(
+                              radius: 50,
+                              backgroundImage: MemoryImage(decodedBytes),
+                            );
+                          } catch (e) {
+                            // Kalau gagal decode, tampilkan icon default
+                            return _defaultProfileIcon();
+                          }
+                        }
+                      } else if (userProvider.user?.photoUrl != null) {
+                        if (Uri.parse(
+                          userProvider.user!.photoUrl!,
+                        ).isAbsolute) {
+                          return CircleAvatar(
+                            radius: 50,
+                            backgroundImage: NetworkImage(
+                              userProvider.user!.photoUrl!,
+                            ),
+                          );
+                        } else if (File(
+                          userProvider.user!.photoUrl!,
+                        ).existsSync()) {
+                          return CircleAvatar(
+                            radius: 50,
+                            backgroundImage: FileImage(
+                              File(userProvider.user!.photoUrl!),
+                            ),
+                          );
+                        } else {
+                          try {
+                            final decodedBytes = base64Decode(
+                              userProvider.user!.photoUrl!,
+                            );
+                            return CircleAvatar(
+                              radius: 50,
+                              backgroundImage: MemoryImage(decodedBytes),
+                            );
+                          } catch (e) {
+                            return _defaultProfileIcon();
+                          }
+                        }
                       }
+                      return _defaultProfileIcon();
                     },
                   ),
                 ),
+
                 const SizedBox(height: 20), // Add padding for spacing
                 // Form Ganti Nama
                 TextFormField(
@@ -355,4 +402,12 @@ class UserProfileScreenState extends State<UserProfileScreen> {
       ),
     );
   }
+}
+
+Widget _defaultProfileIcon() {
+  return const CircleAvatar(
+    radius: 50,
+    backgroundColor: Color.fromRGBO(47, 73, 44, 1),
+    child: Icon(Icons.person, size: 50, color: Colors.white),
+  );
 }
