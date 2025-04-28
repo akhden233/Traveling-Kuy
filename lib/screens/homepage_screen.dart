@@ -9,6 +9,7 @@ import '../backend/models/destination_model.dart';
 import '../screens/user_profile.dart';
 import '../screens/payment_screen.dart';
 import '../backend/providers/auth_provider.dart';
+import '../backend/providers/userProfile_provider.dart';
 
 class HomepageScreen extends StatefulWidget {
   const HomepageScreen({super.key});
@@ -158,8 +159,11 @@ class HomepageScreenState extends State<HomepageScreen> {
     print(
       "🛠 BUILD CALLED - Filtered Destinations: ${filteredDestinations.length}",
     ); // DEBUG POINT #3
-    final authACC = Provider.of<AuthProvider>(context);
+    final authACC = Provider.of<AuthProvider>(context, listen: true);
     final user = authACC.user;
+
+    // final dataProfile = Provider.of<UserprofileProvider>(context);
+    // final profil = dataProfile.user;
 
     if (user == null) {
       return Scaffold(
@@ -195,9 +199,7 @@ class HomepageScreenState extends State<HomepageScreen> {
                                 profileImageBase64.isNotEmpty) {
                               try {
                                 final decodedBytes = base64Decode(
-                                  profileImageBase64
-                                      .split(',')
-                                      .last, // Buang header kalau ada
+                                  profileImageBase64.split(',').last,
                                 );
                                 return CircleAvatar(
                                   radius: 25,
@@ -208,7 +210,6 @@ class HomepageScreenState extends State<HomepageScreen> {
                                 print(
                                   "⚠️ Error decoding base64 profile image: $e",
                                 );
-                                // Kalau error decoding, fallback ke asset
                                 return const CircleAvatar(
                                   radius: 25,
                                   backgroundImage: AssetImage(

@@ -277,6 +277,73 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> updateProfile({
+    String? name,
+    String? email,
+    String? photoUrl,
+  }) async {
+    if (_user == null) {
+      throw Exception('User not logged in');
+    }
+
+    final token = await getToken();
+    if (token == null) {
+      throw Exception('Token tidak tersedia, silakan login ulang.');
+    }
+
+    final url = Uri.parse(
+      '$authEndpoint/update-profile',
+    ); // <- Endpoint backend kamu untuk update profile
+
+    try {
+      final response = await http
+          .put(
+            url,
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode({
+              'name': name ?? _user!.name,
+              'email': email ?? _user!.email,
+              'photoUrl': photoUrl ?? _user!.photoUrl,
+            }),
+          )
+          .timeout(apiTO);
+
+      print('[DEBUG] Update Profile Response Status: ${response.statusCode}');
+      print('[DEBUG] Update Profile Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        // Update data lokal setelah server berhasil
+        final prefs = await SharedPreferences.getInstance();
+        if (name != null) {
+          await prefs.setString('name', name);
+          _user = _user!.copyWith(name: name);
+        }
+        if (email != null) {
+          await prefs.setString('email', email);
+          _user = _user!.copyWith(email: email);
+        }
+        if (photoUrl != null) {
+          await prefs.setString('photoUrl', photoUrl);
+          _user = _user!.copyWith(photoUrl: photoUrl);
+        }
+        notifyListeners();
+      } else {
+        final data = jsonDecode(response.body);
+        throw Exception(data['error'] ?? 'Failed to update profile');
+      }
+    } on TimeoutException {
+      throw Exception('Timeout saat menghubungi server');
+    } on SocketException {
+      throw Exception('Tidak dapat terhubung ke server');
+    } catch (e) {
+      print('[ERROR] Update Profile Error: $e');
+      throw Exception('Gagal update profile');
+    }
+  }
+
   // fungsi logout
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
