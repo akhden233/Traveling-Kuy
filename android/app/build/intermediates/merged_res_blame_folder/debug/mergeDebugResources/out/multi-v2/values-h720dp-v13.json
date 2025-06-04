@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.abp_travel.app-mergeDebugResources-66:/values-h720dp-v13/values-h720dp-v13.xml",
+            "outputFile": "com.travellingkuy.app-mergeDebugResources-106:/values-h720dp-v13/values-h720dp-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\user\\.gradle\\caches\\8.10.2\\transforms\\e8aacb2d061357c5bb5d0eeb38317593\\transformed\\appcompat-1.1.0\\res\\values-h720dp-v13\\values-h720dp-v13.xml",
+                    "source": "C:\\Users\\user\\.gradle\\caches\\8.10.2\\transforms\\bbe72b7bc2e1ee4382b8f71856587841\\transformed\\appcompat-1.7.0\\res\\values-h720dp-v13\\values-h720dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

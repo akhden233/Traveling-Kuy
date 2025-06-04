@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../screens/signin_screen.dart'; 
+import 'package:flutter/widgets.dart';
+import '../backend/routes/web/router.dart';
+import '../screens/signin_screen.dart';
 import '../widgets/social_button.dart';
 
 class TravelCard extends StatelessWidget {
@@ -7,6 +9,9 @@ class TravelCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Obtain the router delegate from the current context
+    final routerDelegate = Router.of(context).routerDelegate as MyRouteDelegate;
+
     return Container(
       width: 350,
       padding: const EdgeInsets.all(20),
@@ -66,10 +71,12 @@ class TravelCard extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SigninScreen()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const SigninScreen()),
+                // );
+
+                routerDelegate.goToSignIn();
               },
               child: const Text(
                 'Get Started',

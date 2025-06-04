@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.abp_travel.app-mergeDebugResources-66:/values-sw360dp-v13/values-sw360dp-v13.xml",
+            "outputFile": "com.travellingkuy.app-mergeDebugResources-106:/values-sw360dp-v13/values-sw360dp-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\user\\.gradle\\caches\\8.10.2\\transforms\\0ba7ef9da1b5e638f2fbc7b6f51dbcf7\\transformed\\preference-1.2.1\\res\\values-sw360dp-v13\\values-sw360dp-v13.xml",
+                    "source": "C:\\Users\\user\\.gradle\\caches\\8.10.2\\transforms\\c74e807aad07555b68f778106f40f3b6\\transformed\\preference-1.2.1\\res\\values-sw360dp-v13\\values-sw360dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

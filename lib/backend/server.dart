@@ -9,7 +9,9 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:shelf_static/shelf_static.dart';
 import '../backend/middleware/middleware.dart';
+import '../backend/routes/order_route.dart';
 import 'db/db.dart';
 import '../backend/utils/helpers.dart';
 // import '../backend/auth/login_facebook_handler.dart';
@@ -34,7 +36,10 @@ void main() async {
     // Endpoint test
     router.get('/', (Request request) {
       print('[GET] / - Health check');
-      return Response.ok("Backend Running!");
+      final file = File('build/web/index.html');
+      // return Response.ok("Backend Running!");
+      return Response.ok(file.readAsStringSync(),
+      headers: {'Content-Type': 'text/html'});
     });
 
     router.post('/auth/google', authGoogleHandler);
@@ -215,13 +220,32 @@ void main() async {
         print('[DEBUG] Hashed Password: $hashedPass');
 
         var results = await conn.query(
-          'SELECT uid, name FROM users WHERE email = ? AND pass = ?',
+          'SELECT uid, name, photoUrl FROM users WHERE email = ? AND pass = ?',
           [payload['email'], hashedPass],
         );
 
         if (results != null && results.isNotEmpty) {
           final user = results.first;
-          print('[SUCCESS] User found: ${user[1]}');
+          print('[SUCCESS] User found: ${user['name']}');
+
+          // Get photoUrl as Blob and encode to base64 with prefix
+          String photoBase64 = '';
+          var photoData = user['photoUrl'];
+          if (photoData != null) {
+            if (photoData is Blob) {
+              final bytes = photoData.toBytes();
+              photoBase64 = 'data:image;base64,${base64Encode(bytes)}';
+            } else if (photoData is Uint8List || photoData is List<int>) {
+              photoBase64 = 'data:image;base64,${base64Encode(photoData)}';
+            } else if (photoData is String) {
+              photoBase64 = photoData;
+            } else {
+              print('[WARNING] Unknown photoUrl data type: ${photoData.runtimeType}');
+              photoBase64 = '';
+            }
+          }
+          print('[DEBUG] Foto Profile length: ${photoBase64.length}');
+          print('[DEBUG] Foto Profile snippet: ${photoBase64.length > 30 ? photoBase64.substring(0, 30) : photoBase64}');
 
           // Generate JWT Token
           final jwt = JWT({
@@ -239,6 +263,7 @@ void main() async {
               'uid': user[0],
               'name': user[1],
               'email': payload['email'],
+              'photoUrl': photoBase64,
               'token': token,
               'message': 'Login berhasil',
             }),
@@ -285,12 +310,6 @@ void main() async {
       var conn;
 
       try {
-        // // pagination (limit + offsets)
-        // final queryParams = request.url.queryParameters;
-        // final limit = int.tryParse(queryParams['limit'] ?? '10') ?? 10;
-        // final offset = int.tryParse(queryParams['offset'] ?? '0') ?? 10;
-
-        // load db
         conn = await dbConn.getConnection();
         if (conn == null) {
           print('[ERROR] Koneksi db tidak tersedia');
@@ -301,17 +320,6 @@ void main() async {
         }
 
         final results = await conn.query('SELECT * FROM destinations');
-
-        // late Results results;
-        // try {
-        //   results = await conn.query('SELECT * FROM destinations');
-        // } catch (e) {
-        //   print('[ERROR] Query failed: $e');
-        //   return Response.internalServerError(
-        //     body: jsonEncode({'error': 'Query gagal: $e'}),
-        //     headers: {'Content-Type': 'application/json'},
-        //   );
-        // }
 
         if (results.isEmpty) {
           return Response.notFound(
@@ -326,9 +334,7 @@ void main() async {
         List<Map<String, dynamic>> destinations = [];
 
         for (var row in results) {
-          // Handling variabel atau kolom price
           dynamic parsedPrice;
-          // decode price (Ticket-Only + Package)
           try {
             var typePrice = row[7];
 
@@ -348,19 +354,9 @@ void main() async {
             parsedPrice = {};
           }
 
-          // Convert ke Map atau List atau set Default
-          if (parsedPrice is! Map && parsedPrice is! List) {
-            print('[WARNING] parsedPrice bukan Map atau List. Diubah ke {}');
-            parsedPrice = {};
-          }
-
-          print('[DEBUG] Tipe parsedPrice: ${parsedPrice.runtimeType}');
-
-          // Convert file gambar => base64 image
           Uint8List? bytes;
-          final juicyBlob = row[2]; // image url
+          final juicyBlob = row[2];
 
-          // mysql1 => return ke Uint8List
           if (juicyBlob is Uint8List) {
             bytes = juicyBlob;
           } else if (juicyBlob is List<int>) {
@@ -402,17 +398,13 @@ void main() async {
           });
 
           print('[DEBUG] Tipe image_url: ${row[2].runtimeType}');
-          // print('[DEBUG] juicyBlob.toString(): ${juicyBlob.toString()}');
           print('[DEBUG] juicyBlob.runtimeType: ${juicyBlob.runtimeType}');
         }
 
-        // Mengirim response dengan data destinasi
         return Response.ok(
           jsonEncode({
             'message': 'Destinations fetched successfully',
             'data': destinations,
-            // 'limit': limit,
-            // 'offset': offset,
           }),
           headers: {
             'Content-Type': 'application/json',
@@ -447,7 +439,6 @@ void main() async {
       try {
         conn = await dbConn.getConnection();
         final body = await request.readAsString();
-        // print('[DEBUG] Request Body: $body');
 
         if (body.isEmpty) {
           print('[ERROR] Empty request body');
@@ -469,8 +460,6 @@ void main() async {
         final currentPassword = payload['currentPassword']?.trim();
         final newPassword = payload['newPassword']?.trim();
         final photoUrl = payload['photoUrl'];
-
-        // print('[DEBUG] Payload: $payload');
 
         if (uid == null || name == null || email == null) {
           print('[ERROR] data UID/Email/Name missing');
@@ -505,7 +494,6 @@ void main() async {
           );
         }
 
-        // Validasi email atau data lainnya (cek duplikasi email)
         final checkEmail = await conn.query(
           'SELECT email FROM users WHERE email = ? AND uid != ?',
           [email, uid],
@@ -523,24 +511,10 @@ void main() async {
           );
         }
 
-        // get password hash from db
         final result = await conn.query(
           'SELECT pass FROM users WHERE uid = ?',
           [uid],
         );
-
-        // if (newPassword != null && currentPassword == null) {
-        //   print('[ERROR] Current password required to change password');
-        //   return Response.badRequest(
-        //     body: jsonEncode({
-        //       'error': 'Current password harus diisi untuk mengganti password',
-        //     }),
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //       'Access-Control-Allow-Origin': '*',
-        //     },
-        //   );
-        // }
 
         if (result.isEmpty) {
           print('[ERROR] User not Found');
@@ -558,19 +532,18 @@ void main() async {
 
         String? updatePass;
         if (newPassword != null && newPassword.isNotEmpty) {
-          if (currentPassword == null || currentPassword.isEmpty){
+          if (currentPassword == null || currentPassword.isEmpty) {
             print('[ERROR] current Password tidak diisi');
             return Response.badRequest(
               body: jsonEncode({'error': 'currentPassword harus diisi'}),
               headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',  
+                'Access-Control-Allow-Origin': '*',
               },
             );
           }
         }
 
-        // cek kecocokan password
         if (newPassword != null && newPassword.isNotEmpty) {
           final passHash = Helpers.hashedPass(currentPassword);
           if (passHash != currentHash) {
@@ -586,7 +559,6 @@ void main() async {
           }
         }
 
-        // Hash password baru (update)
         if (newPassword != null && newPassword.isNotEmpty) {
           if (newPassword.length < 8) {
             print('[ERROR] Password baru minimal 8 karakter');
@@ -604,7 +576,6 @@ void main() async {
         Uint8List? photoByte;
         if (photoUrl != null && photoUrl.isNotEmpty) {
           try {
-            // cek data (data:image/png;base64,xxxxx)
             final base64t =
                 photoUrl.contains(',') ? photoUrl.split(',').last : photoUrl;
             photoByte = base64Decode(base64t);
@@ -617,13 +588,12 @@ void main() async {
               body: jsonEncode({'error': 'Format photoUrl tidak valid'}),
               headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',  
+                'Access-Control-Allow-Origin': '*',
               },
             );
           }
         }
 
-        // Query update
         String sql;
         List<dynamic> params;
 
@@ -647,7 +617,10 @@ void main() async {
 
         print('[SUCCESS] User profile updated: $email');
         return Response.ok(
-          jsonEncode({'message': 'Profil berhasil diperbarui'}),
+          jsonEncode({
+            'message': 'Profil berhasil diperbarui',
+            'photoUrl': photoUrl ?? '',
+          }),
           headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
@@ -673,33 +646,56 @@ void main() async {
       }
     });
 
-    router.all('/<ignored|.*>', (Request request) {
-      return Response.notFound(
-        jsonEncode({'error': 'Route not Founf'}),
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      );
-    });
+    router.mount('/order/', orderRouter().router);
 
-    router.options('/<ignored|.*>', (Request request) {
-      return Response.ok(
-        '',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization',
-        },
-      );
-    });
+    // Serve static files from build/web directory
+    final staticHandler = createStaticHandler(
+      'build/web',
+      defaultDocument: 'index.html',
+      serveFilesOutsidePath: true,
+    );
 
-    // Middleware untuk log request
+    // Fallback handler to serve index.html for SPA routes
+    Response fallbackHandler(Request request) {
+      final indexFile = File('build/web/index.html');
+      if (indexFile.existsSync()) {
+        final contents = indexFile.readAsStringSync();
+        return Response.ok(
+          contents,
+          headers: {
+            'Content-Type': 'text/html',
+            'Access-Control-Allow-Origin': '*',
+          },
+        );
+      } else {
+        return Response.notFound('Not Found');
+      }
+    }
+
+    // Combine router and static file handler
     final handler = Pipeline()
         .addMiddleware(loggingMiddleware())
         .addMiddleware(corsMiddleware())
-        // .addMiddleware(authMiddleware()) // untuk route protected
-        .addHandler(router.call);
+        .addHandler((Request request) async {
+          // If request path starts with API routes, use router
+          final path = request.url.path;
+          if (path.startsWith('auth') ||
+              path.startsWith('destination') ||
+              path.startsWith('user') ||
+              path.startsWith('order') ||
+              path == '') {
+            return router.call(request);
+          }
+
+          // Try to serve static file
+          final staticResponse = await staticHandler(request);
+          if (staticResponse.statusCode != 404) {
+            return staticResponse;
+          }
+
+          // Fallback to index.html for SPA routing
+          return fallbackHandler(request);
+        });
 
     final server = await io.serve(handler, '0.0.0.0', port);
     print("✅ Server Running di http://${server.address.host}:${server.port}");

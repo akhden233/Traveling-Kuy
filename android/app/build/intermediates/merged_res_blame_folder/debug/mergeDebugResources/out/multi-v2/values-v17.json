@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.abp_travel.app-mergeDebugResources-66:/values-v17/values-v17.xml",
+            "outputFile": "com.travellingkuy.app-mergeDebugResources-106:/values-v17/values-v17.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\user\\.gradle\\caches\\8.10.2\\transforms\\e8aacb2d061357c5bb5d0eeb38317593\\transformed\\appcompat-1.1.0\\res\\values-v17\\values-v17.xml",
+                    "source": "C:\\Users\\user\\.gradle\\caches\\8.10.2\\transforms\\bbe72b7bc2e1ee4382b8f71856587841\\transformed\\appcompat-1.7.0\\res\\values-v17\\values-v17.xml",
                     "from": {
                         "startLines": "2,5,9,12,15,18,22,25,29,33,37,40,43,46,50,53,57",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

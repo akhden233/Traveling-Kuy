@@ -189,79 +189,79 @@ Middleware authMiddleware() {
   };
 }
 
-// middleware booking ticket
-Middleware bookingValidationMiddleware() {
-  return (Handler innerHandler) {
-    return (Request request) async {
-      if (request.method == 'POST' && request.url.path.contains('booking')) {
-        try {
-          final payload = await request.readAsString();
-          final bookingData = jsonDecode(payload);
+// // middleware booking ticket
+// Middleware bookingValidationMiddleware() {
+//   return (Handler innerHandler) {
+//     return (Request request) async {
+//       if (request.method == 'POST' && request.url.path.contains('booking')) {
+//         try {
+//           final payload = await request.readAsString();
+//           final bookingData = jsonDecode(payload);
 
-          try {
-            final visitDate = DateTime.parse(bookingData['visitDate']);
-            final numberOfVisitors = bookingData['numberOfVisitors'];
-            final destination = bookingData['destination'];
+//           try {
+//             final visitDate = DateTime.parse(bookingData['visitDate']);
+//             final numberOfVisitors = bookingData['numberOfVisitors'];
+//             final destination = bookingData['destination'];
 
-            BookingMiddleware.validateBookingData(
-              visitDate: visitDate,
-              numberOfVisitors: numberOfVisitors,
-              destination: destination,
-            );
-          } catch (e) {
-            return Response.badRequest(
-              body: jsonEncode({'error': e.toString()}),
-              headers: {'Content-Type': 'application/json'},
-            );
-          }
-        } catch (e) {
-          return Response.badRequest(
-            body: jsonEncode({'error': e.toString()}),
-            headers: {'Content-Type': 'application/json'},
-          );
-        }
-      }
-      return innerHandler(request);
-    };
-  };
-}
+//             BookingMiddleware.validateBookingData(
+//               visitDate: visitDate,
+//               numberOfVisitors: numberOfVisitors,
+//               destination: destination,
+//             );
+//           } catch (e) {
+//             return Response.badRequest(
+//               body: jsonEncode({'error': e.toString()}),
+//               headers: {'Content-Type': 'application/json'},
+//             );
+//           }
+//         } catch (e) {
+//           return Response.badRequest(
+//             body: jsonEncode({'error': e.toString()}),
+//             headers: {'Content-Type': 'application/json'},
+//           );
+//         }
+//       }
+//       return innerHandler(request);
+//     };
+//   };
+// }
 
-// middleware payment
-Middleware paymentValidationMiddleware() {
-  return (Handler innerHandler) {
-    return (Request request) async {
-      if (request.method == 'POST' && request.url.path.contains('payment')) {
-        try {
-          final payload = await request.readAsString();
-          final paymentData = jsonDecode(payload);
+// // middleware payment
+// Middleware paymentValidationMiddleware() {
+//   return (Handler innerHandler) {
+//     return (Request request) async {
+//       if (request.method == 'POST' && request.url.path.contains('payment')) {
+//         try {
+//           final payload = await request.readAsString();
+//           final paymentData = jsonDecode(payload);
 
-          try {
-            final amount = paymentData['amount'];
-            final method = paymentData['method'];
-            final booking = paymentData['booking'];
+//           try {
+//             final amount = paymentData['amount'];
+//             final method = paymentData['method'];
+//             final booking = paymentData['booking'];
 
-            PaymentMiddleware.validatePaymentData(
-              amount: amount,
-              method: method,
-              booking: booking,
-            );
-          } catch (e) {
-            return Response.badRequest(
-              body: jsonEncode({'error': e.toString()}),
-              headers: {'Content-Type': 'application/json'},
-            );
-          }
-        } catch (e) {
-          return Response.badRequest(
-            body: jsonEncode({'error': e.toString()}),
-            headers: {'Content-Type': 'application/json'},
-          );
-        }
-      }
-      return innerHandler(request);
-    };
-  };
-}
+//             PaymentMiddleware.validatePaymentData(
+//               amount: amount,
+//               method: method,
+//               booking: booking,
+//             );
+//           } catch (e) {
+//             return Response.badRequest(
+//               body: jsonEncode({'error': e.toString()}),
+//               headers: {'Content-Type': 'application/json'},
+//             );
+//           }
+//         } catch (e) {
+//           return Response.badRequest(
+//             body: jsonEncode({'error': e.toString()}),
+//             headers: {'Content-Type': 'application/json'},
+//           );
+//         }
+//       }
+//       return innerHandler(request);
+//     };
+//   };
+// }
 
 // middleware CORS
 Middleware corsMiddleware() {
@@ -286,8 +286,8 @@ Future<void> main() async {
       .addMiddleware(loggingMiddleware())
       .addMiddleware(corsMiddleware())
       .addMiddleware(authMiddleware())
-      .addMiddleware(bookingValidationMiddleware())
-      .addMiddleware(paymentValidationMiddleware())
+      // .addMiddleware(bookingValidationMiddleware())
+      // .addMiddleware(paymentValidationMiddleware())
       .addHandler(mainRouter.call);
   final server = await shelf_io.serve(handler, InternetAddress.anyIPv4 , port);
   print('Server running on http://${server.address.host}:${server.port}');

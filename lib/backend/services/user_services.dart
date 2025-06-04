@@ -101,7 +101,6 @@ class UserServices {
 
       return true;
     } catch (e) {
-      await conn.close();
       dev.log('Failed to update user profile: $e');
       throw Exception('Failed to update user profile: $e');
     } finally {
@@ -110,15 +109,14 @@ class UserServices {
   }
 
   static Future<Map<String, dynamic>?> getUserbyId(String uid) async {
+    var conn;
     try {
-      final conn = await dbConn.getConnection();
+      conn = await dbConn.getConnection();
 
       final result = await conn!.query(
         'SELECT uid, name, email, photoUrl FROM users WHERE uid = ?',
         [uid],
       );
-
-      await conn.close();
 
       if (result.isEmpty) return null;
       final row = result.first;
@@ -131,6 +129,8 @@ class UserServices {
     } catch (e) {
       dev.log('Failed to get user by ID :$e');
       throw Exception('Failed to get user by ID :$e');
+    } finally {
+      await conn.close();
     }
   }
 

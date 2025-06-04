@@ -69,7 +69,7 @@ class UserprofileProvider extends ChangeNotifier {
   Future<bool> updateProfile({
     required String name,
     required String email,
-    File? photoUrl,
+    String? photoUrl,
     String? currentPassword,
     String? newPassword,
   }) async {
@@ -113,9 +113,7 @@ class UserprofileProvider extends ChangeNotifier {
     // convert Base64 to String
     if (photoUrl != null) {
       try {
-        final bytes = await photoUrl.readAsBytes();
-        final base64Image = base64Encode(bytes);
-        body['photoUrl'] = base64Image;
+        body['photoUrl'] = photoUrl;
       } catch (e) {
         throw Exception('Gagal membaca foto: $e');
       }

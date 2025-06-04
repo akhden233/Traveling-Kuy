@@ -1,8 +1,10 @@
+import 'package:abp_travel/backend/providers/destination_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../backend/utils/constants/constants_flutter.dart';
 import '../backend/utils/formatters.dart';
 import '../backend/models/destination_model.dart';
@@ -10,6 +12,7 @@ import '../screens/user_profile.dart';
 import '../screens/payment_screen.dart';
 import '../backend/providers/auth_provider.dart';
 import '../backend/providers/userProfile_provider.dart';
+import '../backend/routes/web/router.dart';
 
 class HomepageScreen extends StatefulWidget {
   const HomepageScreen({super.key});
@@ -25,12 +28,36 @@ class HomepageScreenState extends State<HomepageScreen> {
   List<Destination> destinations = [];
   List<Destination> filteredDestinations = [];
 
+  late VoidCallback _profileImageListener;
+
   @override
   void initState() {
     super.initState();
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.fetchUserProfile();
     fetchDestination().then((_) {
       // _updateMarkers(); // Fungsi update marker
     });
+
+    _syncProfileImage();
+
+    // Define listener callback
+    _profileImageListener = () {
+      if (mounted) {
+        setState(() {});
+      }
+    };
+
+    // Add listener to profileImageNotifier to rebuild UI on profile image change
+    profileImageNotifier.addListener(_profileImageListener);
+  }
+
+  Future<void> _syncProfileImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedPhotoUrl = prefs.getString('photoUrl');
+    if (storedPhotoUrl != null) {
+      profileImageNotifier.value = storedPhotoUrl;
+    }
   }
 
   // Future<void> _updateMarkers() async {
@@ -70,6 +97,29 @@ class HomepageScreenState extends State<HomepageScreen> {
     } else {
       print('Gagal memuat destinasi: ${response.statusCode}');
     }
+  }
+
+  Future<void> _refreshHomePage() async {
+    await fetchDestination();
+
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    await authProvider.fetchUserProfile();
+
+    await _syncProfileImage();
+
+    // 3. Jika kamu pakai Provider DestinationProvider,
+    // pastikan juga sinkronisasi data di sana (kalau memang digunakan)
+    // final destinationProvider = Provider.of<DestinationProvider>(
+    //   context,
+    //   listen: false,
+    // );
+    // await destinationProvider.fetchDestinations(); // contoh jika ada fungsi fetch di provider
+
+    if (!mounted) return;
+    setState(() {
+      // Update UI jika perlu, contoh:
+      filteredDestinations = destinations; // dari fetchDestination
+    });
   }
 
   void _searchDestinations(String query) {
@@ -159,228 +209,279 @@ class HomepageScreenState extends State<HomepageScreen> {
     print(
       "🛠 BUILD CALLED - Filtered Destinations: ${filteredDestinations.length}",
     ); // DEBUG POINT #3
-    final authACC = Provider.of<AuthProvider>(context, listen: true);
-    final user = authACC.user;
 
-    // final dataProfile = Provider.of<UserprofileProvider>(context);
-    // final profil = dataProfile.user;
+    final routerDelegate = Router.of(context).routerDelegate as MyRouteDelegate;
 
-    if (user == null) {
-      return Scaffold(
-        body: Center(child: Text('User tidak ditemukan. Silahkan Login')),
-      );
-    }
+    return Consumer<AuthProvider>(
+      builder: (context, authProvider, child) {
+        final user = context.watch<AuthProvider>().user;
+        if (user == null) {
+          return Scaffold(
+            body: Center(child: Text('User tidak ditemukan. Silahkan Login')),
+          );
+        }
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const UserProfileScreen(),
-                            ),
-                          );
-                        },
-                        child: ValueListenableBuilder<String?>(
-                          valueListenable: profileImageNotifier,
-                          builder: (context, profileImageBase64, child) {
-                            if (profileImageBase64 != null &&
-                                profileImageBase64.isNotEmpty) {
-                              try {
-                                final decodedBytes = base64Decode(
-                                  profileImageBase64.split(',').last,
-                                );
-                                return CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage: MemoryImage(decodedBytes),
-                                  backgroundColor: Colors.white,
-                                );
-                              } catch (e) {
-                                print(
-                                  "⚠️ Error decoding base64 profile image: $e",
-                                );
-                                return const CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage: AssetImage(
-                                    "assets/avatar_fullname.png",
-                                  ),
-                                  backgroundColor: Colors.white,
-                                );
-                              }
-                            } else {
-                              return const CircleAvatar(
-                                radius: 25,
-                                backgroundImage: AssetImage(
-                                  "assets/avatar_fullname.png",
-                                ),
-                                backgroundColor: Colors.white,
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            user.name,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            user.email,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Icon(Icons.notifications, size: 28),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
-                controller: searchController,
-                onChanged: _searchDestinations,
-                decoration: InputDecoration(
-                  hintText: "Search destinations...",
-                  prefixIcon: const Icon(Icons.search, color: Colors.white),
-                  filled: true,
-                  fillColor: Colors.green[900],
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
+        return Scaffold(
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: RefreshIndicator(
+              onRefresh: _refreshHomePage,
               child: Column(
                 children: [
-                  // GoogleMap widget dikomentari
-                  // Expanded(
-                  //   child: GoogleMap(
-                  //     initialCameraPosition: CameraPosition(
-                  //       target: LatLng(
-                  //         -6.2088,
-                  //         106.8456,
-                  //       ), // Default location Jakarta
-                  //       zoom: 10,
-                  //     ),
-                  //     markers: _markers,
-                  //     onMapCreated: (GoogleMapController controller) {
-                  //       mapController = controller;
-                  //     },
-                  //   ),
-                  // ),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      itemCount: filteredDestinations.length,
-                      itemBuilder: (context, index) {
-                        print(
-                          "📦 RENDERING CARD: ${filteredDestinations[index].name}",
-                        ); // DEBUG POINT #4
-                        return GestureDetector(
-                          onTap:
-                              () => _showDestinationDetails(
-                                filteredDestinations[index],
+                  // User Profile
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder:
+                                //         (context) => const UserProfileScreen(),
+                                //   ),
+                                // );
+
+                                routerDelegate.goToUserProfile();
+                              },
+                              child: ValueListenableBuilder<String?>(
+                                valueListenable: profileImageNotifier,
+                                builder: (context, profileImageBase64, child) {
+                                  if (profileImageBase64 != null &&
+                                      profileImageBase64.isNotEmpty) {
+                                    try {
+                                      // String base64Str = profileImageBase64;
+                                      // if (!profileImageBase64.startsWith('data:image')) {
+                                      //   final header = profileImageBase64.substring(0, 10).toLowerCase();
+                                      //   String format = 'png';
+                                      //   if (header.contains('jpeg') || header.contains('jpg')) {
+                                      //     format = 'jpeg';
+                                      //   } else if (header.contains('gif')) {
+                                      //     format = 'gif';
+                                      //   } else if (header.contains('bmp')) {
+                                      //     format = 'bmp';
+                                      //   } else if (header.contains('webp')) {
+                                      //     format = 'webp';
+                                      //   }
+                                      //   base64Str = 'data:image/$format;base64,$profileImageBase64';
+                                      // }
+                                      // final base64Data = base64Str.contains(',')
+                                      //     ? base64Str.split(',').last
+                                      //     : base64Str;
+                                      String base64Data = profileImageBase64;
+                                      if (profileImageBase64.contains(',')) {
+                                        base64Data =
+                                            profileImageBase64.split(',').last;
+                                      }
+                                      final decodedBytes = base64Decode(
+                                        base64Data,
+                                      );
+                                      return CircleAvatar(
+                                        radius: 25,
+                                        backgroundImage: MemoryImage(
+                                          decodedBytes,
+                                        ),
+                                        backgroundColor: Colors.white,
+                                      );
+                                    } catch (e) {
+                                      print(
+                                        "⚠️ Error decoding base64 profile image: $e",
+                                      );
+                                      return const CircleAvatar(
+                                        radius: 25,
+                                        backgroundImage: AssetImage(
+                                          "assets/avatar_fullname.png",
+                                        ),
+                                        backgroundColor: Colors.white,
+                                      );
+                                    }
+                                  }
+
+                                  // fallback jika null
+                                  return const CircleAvatar(
+                                    radius: 25,
+                                    backgroundImage: AssetImage(
+                                      "assets/avatar_fullname.png",
+                                    ),
+                                    backgroundColor: Colors.white,
+                                  );
+                                },
                               ),
-                          child: Card(
-                            margin: const EdgeInsets.only(bottom: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
                             ),
-                            elevation: 5,
-                            child: Column(
+                            const SizedBox(width: 10),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(15),
-                                  ),
-                                  child: Image.memory(
-                                    base64Decode(
-                                      filteredDestinations[index].imageUrl
-                                          .split(',')
-                                          .last,
-                                    ),
-                                    height: 150,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
+                                Text(
+                                  user.name,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(12),
+                                Text(
+                                  user.email,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const Icon(Icons.notifications, size: 28),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: TextField(
+                      controller: searchController,
+                      onChanged: _searchDestinations,
+                      decoration: InputDecoration(
+                        hintText: "Search destinations...",
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                        filled: true,
+                        fillColor: Colors.green[900],
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        // GoogleMap widget dikomentari
+                        // Expanded(
+                        //   child: GoogleMap(
+                        //     initialCameraPosition: CameraPosition(
+                        //       target: LatLng(
+                        //         -6.2088,
+                        //         106.8456,
+                        //       ), // Default location Jakarta
+                        //       zoom: 10,
+                        //     ),
+                        //     markers: _markers,
+                        //     onMapCreated: (GoogleMapController controller) {
+                        //       mapController = controller;
+                        //     },
+                        //   ),
+                        // ),
+                        Expanded(
+                          child: ListView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            itemCount: filteredDestinations.length,
+                            itemBuilder: (context, index) {
+                              print(
+                                "📦 RENDERING CARD: ${filteredDestinations[index].name}",
+                              ); // DEBUG POINT #4
+                              return GestureDetector(
+                                onTap:
+                                    () => _showDestinationDetails(
+                                      filteredDestinations[index],
+                                    ),
+                                child: Card(
+                                  margin: const EdgeInsets.only(bottom: 15),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  elevation: 5,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        filteredDestinations[index].name,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
+                                      ClipRRect(
+                                        borderRadius:
+                                            const BorderRadius.vertical(
+                                              top: Radius.circular(15),
+                                            ),
+                                        child: Image.memory(
+                                          base64Decode(
+                                            filteredDestinations[index].imageUrl
+                                                .split(',')
+                                                .last,
+                                          ),
+                                          height: 150,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                      Text(
-                                        filteredDestinations[index].address,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[600],
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Text(
-                                        Formatters.currencyFormat.format(
-                                          filteredDestinations[index]
-                                              .price["Only-Ticket"],
-                                        ),
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color.fromRGBO(47, 73, 44, 1),
+                                      Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              filteredDestinations[index].name,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              filteredDestinations[index]
+                                                  .address,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey[600],
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              Formatters.currencyFormat.format(
+                                                filteredDestinations[index]
+                                                    .price["Only-Ticket"],
+                                              ),
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromRGBO(
+                                                  47,
+                                                  73,
+                                                  44,
+                                                  1,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              );
+                            },
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -400,6 +501,8 @@ class PriceOptionCard extends StatelessWidget {
             ? destination.price[packageType]!.toStringAsFixed(0)
             : "Harga tidak tersedia";
 
+    final user = Provider.of<AuthProvider>(context, listen: false).user;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (context.mounted) {
         Navigator.of(context).push(
@@ -409,6 +512,7 @@ class PriceOptionCard extends StatelessWidget {
                   destination: destination,
                   packageType: packageType,
                   price: price,
+                  userId: user?.uid ?? 0,
                 ),
           ),
         );

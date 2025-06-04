@@ -1,184 +1,223 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../backend/models/destination_model.dart';
 import '../backend/utils/formatters.dart';
+import '../backend/utils/constants/constants_flutter.dart';
 
-class PaymentScreen extends StatelessWidget {
+class PaymentScreen extends StatefulWidget {
   final Destination destination;
   final String packageType;
   final String price;
+  final int userId;
 
   const PaymentScreen({
     super.key,
     required this.destination,
     required this.packageType,
     required this.price,
+    required this.userId,
   });
 
-  void _handlePaymentSelection(BuildContext context, String paymentMethod) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("You selected $paymentMethod"),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (context.mounted) {
-        Navigator.of(context).push(_createRoute(paymentMethod));
-      }
-    });
-  }
-
-  Route _createRoute(String paymentMethod) {
-    return PageRouteBuilder(
-      pageBuilder:
-          (context, animation, secondaryAnimation) =>
-              PaymentConfirmationScreen(paymentMethod: paymentMethod),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(opacity: animation, child: child);
-      },
-    );
-  }
-
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.memory(
-                  base64Decode(destination.imageUrl.split(',').last),
-                  height: 200,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                destination.name,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                "Paket: $packageType",
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                destination.description ?? '',
-                style: const TextStyle(fontSize: 14),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                "Harga: ${Formatters.currencyFormat.format(destination.price[packageType] ?? 0)}",
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromRGBO(47, 73, 44, 1),
-                ),
-              ),
-              const SizedBox(height: 30),
-              const Text(
-                "CHOOSE PAYMENT",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              _buildPaymentOption(context, "BCA", "assets/BCA.png"),
-              _buildPaymentOption(context, "Mandiri", "assets/mandiri.png"),
-              _buildPaymentOption(context, "BNI", "assets/BNI.png"),
-              _buildPaymentOption(context, "BRI", "assets/BRI.png"),
-              const SizedBox(height: 10),
-              const Text(
-                "You can make transfers using ATM / M-Banking / Internet Banking",
-                style: TextStyle(color: Colors.grey, fontSize: 12),
-              ),
-              const SizedBox(height: 20),
-              _buildPaymentOption(context, "Indomaret", "assets/indomaret.png"),
-              _buildPaymentOption(context, "Alfamart", "assets/alfamart.png"),
-              _buildPaymentOption(
-                context,
-                "Visa, Mastercard, Rupay & more",
-                "assets/card.png",
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPaymentOption(
-    BuildContext context,
-    String title,
-    String imagePath,
-  ) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 2,
-      child: ListTile(
-        leading: Image.asset(
-          imagePath,
-          width: 40,
-          height: 40,
-          errorBuilder: (context, error, stackTrace) {
-            return const Icon(Icons.broken_image, size: 40, color: Colors.red);
-          },
-        ),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
-          color: Colors.grey,
-        ),
-        onTap: () => _handlePaymentSelection(context, title),
-      ),
-    );
-  }
+  State<PaymentScreen> createState() => _PaymentScreenState();
 }
 
-// Halaman Konfirmasi Pembayaran
-class PaymentConfirmationScreen extends StatelessWidget {
-  final String paymentMethod;
+class _PaymentScreenState extends State<PaymentScreen> {
+  bool _isSubmitting = false;
+  DateTime? _selectedDate;
+  String? _paymentUrl;
 
-  const PaymentConfirmationScreen({super.key, required this.paymentMethod});
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? now,
+      firstDate: now,
+      lastDate: DateTime(now.year + 2),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+
+  Future<void> _startMidtransPayment() async {
+    if (_selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a booking date')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isSubmitting = true;
+    });
+
+    try {
+      final orderPayload = {
+        'user_id': widget.userId,
+        'destination_id': widget.destination.destination_id,
+        'packageType': widget.packageType,
+        'booking_date': _selectedDate!.toIso8601String(),
+        'quantity': 1,
+      };
+
+      final orderResponse = await http.post(
+        Uri.parse('$orderEndpoint/create'),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: orderPayload.entries
+            .map((e) => '${e.key}=${Uri.encodeComponent(e.value.toString())}')
+            .join('&'),
+      );
+
+      if (orderResponse.statusCode != 200) {
+        throw Exception('Failed to create order: ${orderResponse.body}');
+      }
+
+      final orderData = jsonDecode(orderResponse.body);
+      final orderId = orderData['order_id'];
+
+      final midtransPayload = {
+        'payment_type': 'bank_transfer',
+        'transaction_details': {
+          'order_id': orderId.toString(),
+          'gross_amount': double.tryParse(widget.price) ?? 0,
+        },
+        'bank_transfer': {
+          'bank': 'bca',
+        },
+        'customer_details': {
+          'first_name': 'Customer',
+          'email': 'customer@example.com',
+        },
+      };
+
+      final midtransResponse = await http.post(
+        Uri.parse('$orderEndpoint/midtrans/charge'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(midtransPayload),
+      );
+
+      if (midtransResponse.statusCode != 200) {
+        throw Exception('Failed to initiate Midtrans payment: ${midtransResponse.body}');
+      }
+
+      final midtransData = jsonDecode(midtransResponse.body);
+      final redirectUrl = midtransData['redirect_url'] ?? midtransData['actions']?[0]?['url'];
+
+      if (redirectUrl == null) {
+        throw Exception('No redirect URL received from Midtrans');
+      }
+
+      if (kIsWeb) {
+        if (await canLaunchUrl(redirectUrl)) {
+          await launchUrl(redirectUrl);
+        } else {
+          throw Exception('Could not launch payment URL');
+        }
+      } else {
+        setState(() {
+          _paymentUrl = redirectUrl;
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Payment error: $e')),
+      );
+    } finally {
+      setState(() {
+        _isSubmitting = false;
+      });
+    }
+  }
+
+  Widget buildInAppWebView() {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Midtrans Payment'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            setState(() {
+              _paymentUrl = null;
+            });
+          },
+        ),
+      ),
+      body: InAppWebView(
+        initialUrlRequest: URLRequest(url: WebUri(_paymentUrl!)),
+        onLoadStop: (controller, url) {
+          if (url.toString().contains('your_redirect_success_url')) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Payment successful')),
+            );
+            setState(() {
+              _paymentUrl = null;
+            });
+          } else if (url.toString().contains('your_redirect_failure_url')) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Payment failed or cancelled')),
+            );
+            setState(() {
+              _paymentUrl = null;
+            });
+          }
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_paymentUrl != null && !kIsWeb) {
+      return buildInAppWebView();
+    }
+
+    final dateText = _selectedDate == null
+        ? 'Select booking date'
+        : DateFormat('yyyy-MM-dd').format(_selectedDate!);
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
+      appBar: AppBar(title: const Text('Payment')),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "You have chosen to pay with:",
-              style: TextStyle(fontSize: 16, color: Colors.black87),
+            Text(
+              widget.destination.name,
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Text(
-              paymentMethod,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              'Package: ${widget.packageType}',
+              style: const TextStyle(fontSize: 18, color: Colors.green),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Price: ${Formatters.currencyFormat.format(double.tryParse(widget.price) ?? 0)}',
+              style: const TextStyle(
+                fontSize: 18,
+                color: Color.fromRGBO(47, 73, 44, 1),
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("Confirm"),
+              onPressed: () => _selectDate(context),
+              child: Text(dateText),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _isSubmitting ? null : _startMidtransPayment,
+              child: _isSubmitting
+                  ? const CircularProgressIndicator()
+                  : const Text('Pay with Midtrans'),
             ),
           ],
         ),

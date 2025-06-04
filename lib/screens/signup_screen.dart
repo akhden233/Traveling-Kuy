@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../backend/routes/web/router.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 import '../backend/providers/auth_provider.dart';
@@ -143,6 +144,9 @@ class SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Obtain the router delegate from the current context
+    final routerDelegate = Router.of(context).routerDelegate as MyRouteDelegate;
+
     return Scaffold(
       resizeToAvoidBottomInset: true, // Mencegah overflow saat keyboard muncul
       body: SafeArea(
@@ -257,12 +261,14 @@ class SignupScreenState extends State<SignupScreen> {
                       // Navigasi ke Sign In
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SigninScreen(),
-                            ),
-                          );
+                          // Navigator.pushReplacement(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const SigninScreen(),
+                          //   ),
+                          // );
+
+                          routerDelegate.goToSignIn();
                         },
                         child: const Text("Already have an account? Sign In"),
                       ),

@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 import 'package:google_sign_in/google_sign_in.dart';
+import '../../screens/user_profile.dart';
 import '../models/user_model.dart' as local;
 import '../utils/constants/constants_flutter.dart';
 import '../utils/validators.dart';
@@ -132,6 +133,19 @@ class AuthProvider extends ChangeNotifier {
         await prefs.setString('name', data['name']);
         await prefs.setString('email', email);
         await prefs.setString('photoUrl', data['photoUrl']?.toString() ?? '');
+
+        // Add debug log for photoUrl value
+        print('[DEBUG] photoUrl from login response: ${data['photoUrl']}');
+        print(
+          '[DEBUG] Saving photoUrl to SharedPreferences and updating notifier',
+        );
+
+        // Update profileImageNotifier => refresh UI setelah Login
+        profileImageNotifier.value = data['photoUrl']?.toString() ?? '';
+        print(
+          '[DEBUG] profileImageNotifier updated during login with length: \${profileImageNotifier.value.length}',
+        );
+
         await prefs.setString('firebase_id', data['firebase_id'] ?? '');
 
         setUser(
@@ -196,11 +210,17 @@ class AuthProvider extends ChangeNotifier {
       }
 
       // get token from firebase
-      final String firebaseToken = (await firebaseUser.getIdToken())!;
+      final String? firebaseToken = await firebaseUser.getIdToken(true);
       final String firebase_id = firebaseUser.uid;
       final String name = firebaseUser.displayName ?? '';
       final String email = firebaseUser.email!;
       final String? photoUrl = firebaseUser.photoURL;
+
+      // Debug logs for token and user data
+      dev.log('[DEBUG] Firebase Token: $firebaseToken');
+      dev.log('[DEBUG] User ID: $firebase_id');
+      dev.log('[DEBUG] User Email: $email');
+      dev.log('[DEBUG] User Name: $name');
 
       // send to backend
       final url = Uri.parse('$authEndpoint/google');
@@ -242,7 +262,10 @@ class AuthProvider extends ChangeNotifier {
         await prefs.setInt('uid', data['uid']);
         await prefs.setString('email', email);
         await prefs.setString('name', name);
-        await prefs.setString('photoUrl', photoUrl ?? '');
+        await prefs.setString(
+          'photoUrl',
+          data['photoUrl']?.toString() ?? photoUrl ?? '',
+        );
 
         _user = local.User(
           uid: data['uid'],
@@ -250,7 +273,7 @@ class AuthProvider extends ChangeNotifier {
           name: name,
           email: email,
           token: data['token'],
-          photoUrl: photoUrl,
+          photoUrl: data['photoUrl'].toString() ?? '',
         );
 
         notifyListeners();
@@ -277,77 +300,44 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  // Update Profile (name, email, photoUrl) ke local user + storage
   Future<void> updateProfile({
     String? name,
     String? email,
     String? photoUrl,
   }) async {
-    if (_user == null) {
-      throw Exception('User not logged in');
-    }
+    if (_user == null) return;
 
-    final token = await getToken();
-    if (token == null) {
-      throw Exception('Token tidak tersedia, silakan login ulang.');
-    }
+    _user = _user!.copyWith(name: name, email: email, photoUrl: photoUrl);
+    notifyListeners();
 
-    final url = Uri.parse(
-      '$authEndpoint/update-profile',
-    ); // <- Endpoint backend kamu untuk update profile
-
+    // Update juga ke SharedPreferences
     try {
-      final response = await http
-          .put(
-            url,
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer $token',
-            },
-            body: jsonEncode({
-              'name': name ?? _user!.name,
-              'email': email ?? _user!.email,
-              'photoUrl': photoUrl ?? _user!.photoUrl,
-            }),
-          )
-          .timeout(apiTO);
-
-      print('[DEBUG] Update Profile Response Status: ${response.statusCode}');
-      print('[DEBUG] Update Profile Response Body: ${response.body}');
-
-      if (response.statusCode == 200) {
-        // Update data lokal setelah server berhasil
-        final prefs = await SharedPreferences.getInstance();
-        if (name != null) {
-          await prefs.setString('name', name);
-          _user = _user!.copyWith(name: name);
-        }
-        if (email != null) {
-          await prefs.setString('email', email);
-          _user = _user!.copyWith(email: email);
-        }
-        if (photoUrl != null) {
-          await prefs.setString('photoUrl', photoUrl);
-          _user = _user!.copyWith(photoUrl: photoUrl);
-        }
-        notifyListeners();
-      } else {
-        final data = jsonDecode(response.body);
-        throw Exception(data['error'] ?? 'Failed to update profile');
+      final prefs = await SharedPreferences.getInstance();
+      if (name != null) await prefs.setString('name', name);
+      if (email != null) await prefs.setString('email', email);
+      // if (photoUrl != null) await prefs.setString('photoUrl', photoUrl);
+      if (photoUrl != null) {
+        await prefs.setString('photoUrl', photoUrl);
+        profileImageNotifier.value = photoUrl; // refresh UI
       }
-    } on TimeoutException {
-      throw Exception('Timeout saat menghubungi server');
-    } on SocketException {
-      throw Exception('Tidak dapat terhubung ke server');
     } catch (e) {
-      print('[ERROR] Update Profile Error: $e');
-      throw Exception('Gagal update profile');
+      dev.log('[ERROR] Failed to update profile in storage: $e');
     }
   }
 
   // fungsi logout
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
+    final profileImage =
+        prefs.getString('profileImage') ??
+        ''; // keep foto profile setelah logout
+
     await prefs.clear(); // clear all preferences
+
+    if (profileImage.isNotEmpty) {
+      await prefs.setString('profileImage', profileImage);
+    }
     await _firebaseAuth.signOut(); // log out dari firebase
     await _googleSignIn.signOut(); // log out dari Google
     _user = null;
@@ -396,6 +386,53 @@ class AuthProvider extends ChangeNotifier {
       }
     } catch (e) {
       print('[ERROR] Gagal load dari penyimpanan: $e');
+    }
+  }
+
+  // fetch user profile from backend API
+  Future<void> fetchUserProfile() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+      if (token == null) {
+        _user = null;
+        notifyListeners();
+        return;
+      }
+
+      final url = Uri.parse('$authEndpoint/profile');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        // Assuming photoUrl is base64 encoded string from longblob
+        String photoBase64 = data['photoUrl'] ?? '';
+        _user = local.User(
+          uid: data['uid'] ?? 0,
+          name: data['name'] ?? '',
+          email: data['email'] ?? '',
+          token: token,
+          photoUrl: photoBase64,
+        );
+        notifyListeners();
+
+        // Update SharedPreferences with fresh data
+        await prefs.setInt('uid', _user!.uid);
+        await prefs.setString('name', _user!.name);
+        await prefs.setString('email', _user!.email);
+        await prefs.setString('photoUrl', photoBase64);
+        profileImageNotifier.value = photoBase64;
+      } else {
+        print('[ERROR] Failed to fetch user profile: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('[ERROR] Exception in fetchUserProfile: $e');
     }
   }
 }

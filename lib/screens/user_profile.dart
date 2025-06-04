@@ -1,12 +1,17 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../backend/providers/userProfile_provider.dart';
 import '../backend/utils/validators.dart';
+import '../backend/providers/auth_provider.dart';
+import '../backend/routes/web/router.dart';
 import '../screens/homepage_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'signin_screen.dart';
 
 // ValueNotifier untuk update gambar di halaman lain
@@ -27,7 +32,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _currentPasswordController =
       TextEditingController();
-  File? _profileImageFile;
+  String? _profileImageBase64;
 
   @override
   void initState() {
@@ -46,20 +51,27 @@ class UserProfileScreenState extends State<UserProfileScreen> {
     final user = userProvider.user;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? storedProfileImage = prefs.getString('profileImage');
+    String? storedPhotoUrl = prefs.getString('photoUrl');
+    print('DEBUG: Loaded photoUrl from SharedPreferences: $storedPhotoUrl');
     if (user != null) {
       _nameController.text = user.name;
       _emailController.text = user.email;
       setState(() {
-        if (storedProfileImage != null) {
-          _profileImageFile = File(storedProfileImage);
-        } else if (user.photoUrl != null) {
-          _profileImageFile = File(user.photoUrl!);
+        if (storedPhotoUrl != null && storedPhotoUrl.isNotEmpty) {
+          _profileImageBase64 = storedPhotoUrl;
+          profileImageNotifier.value = _profileImageBase64;
+          print('DEBUG: profileImageNotifier updated with storedPhotoUrl');
+        } else if (user.photoUrl != null && user.photoUrl!.isNotEmpty) {
+          _profileImageBase64 = user.photoUrl;
+          profileImageNotifier.value = user.photoUrl;
+          print('DEBUG: profileImageNotifier updated with user.photoUrl');
         } else {
-          _profileImageFile = null;
+          _profileImageBase64 = null;
+          print('DEBUG: No profile image found');
         }
-        profileImageNotifier.value = storedProfileImage;
       });
+    } else {
+      print('DEBUG: User is null in _loadUserData');
     }
   }
 
@@ -70,18 +82,45 @@ class UserProfileScreenState extends State<UserProfileScreen> {
     );
 
     if (pickedFile != null) {
-      if (!mounted) return; // Cek apakah widget masih ada sebelum update state
+      if (!mounted) return; // Cek apakah widget ada sebelum update state
+
+      Uint8List? imageBytes;
+
+      if (kIsWeb) {
+        // For web, read as bytes directly
+        imageBytes = await pickedFile.readAsBytes();
+
+        // Optionally, compress image on web using canvas or other methods
+        // For simplicity, skipping compression on web here
+      } else {
+        // For mobile, compress image file
+        final compressedBytes = await FlutterImageCompress.compressWithFile(
+          pickedFile.path,
+          quality: 50,
+        );
+
+        if (compressedBytes == null) {
+          print('[ERROR] Image compression failed');
+          return;
+        }
+        imageBytes = compressedBytes;
+      }
+
+      final base64Image = base64Encode(imageBytes);
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('photoUrl', base64Image);
+
       setState(() {
-        _profileImageFile = File(pickedFile.path);
-        profileImageNotifier.value =
-            pickedFile.path; // Perbarui foto di homepage
+        _profileImageBase64 = base64Image;
+        profileImageNotifier.value = base64Image; // Perbarui foto di homepage
       });
-      await prefs.setString('profileImage', pickedFile.path);
     }
   }
 
   Future<void> _updateProfile() async {
+    final routerDelegate = Router.of(context).routerDelegate as MyRouteDelegate;
+
     final userProvider = Provider.of<UserprofileProvider>(
       context,
       listen: false,
@@ -96,7 +135,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
       await userProvider.updateProfile(
         name: _nameController.text.trim(),
         email: _emailController.text.trim(),
-        photoUrl: _profileImageFile,
+        photoUrl: profileImageNotifier.value,
         currentPassword:
             _currentPasswordController.text.isNotEmpty
                 ? _currentPasswordController.text
@@ -111,8 +150,8 @@ class UserProfileScreenState extends State<UserProfileScreen> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('userName', _nameController.text.trim());
       prefs.setString('userEmail', _emailController.text.trim());
-      if (_profileImageFile != null) {
-        prefs.setString('profileImage', _profileImageFile!.path);
+      if (_profileImageBase64 != null) {
+        prefs.setString('photoUrl', profileImageNotifier.value!);
       }
 
       // Pastikan state di-refresh
@@ -129,10 +168,19 @@ class UserProfileScreenState extends State<UserProfileScreen> {
         // Memastikan state terbaru ditampilkan
       });
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomepageScreen()),
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      await authProvider.updateProfile(
+        name: _nameController.text.trim(),
+        email: _emailController.text.trim(),
+        photoUrl: _profileImageBase64,
       );
+
+      await userProvider.loadUserFromStorage();
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => HomepageScreen()),
+      // );
+      routerDelegate.goToDashboard();
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -142,6 +190,8 @@ class UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   Future<void> _logout() async {
+    final routerDelegate = Router.of(context).routerDelegate as MyRouteDelegate;
+
     final userProvider = Provider.of<UserprofileProvider>(
       context,
       listen: false,
@@ -149,10 +199,11 @@ class UserProfileScreenState extends State<UserProfileScreen> {
     await userProvider.clearUserData();
 
     if (!mounted) return; // Cek apakah widget masih ada sebelum navigasi
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const SigninScreen()),
-    );
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => const SigninScreen()),
+    // );
+    routerDelegate.goToSignIn();
   }
 
   @override
@@ -193,74 +244,50 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                     onTap: _pickImage,
                     child: ValueListenableBuilder<String?>(
                       valueListenable: profileImageNotifier,
-                      builder: (context, profileImage, child) {
-                        if (_profileImageFile != null &&
-                            _profileImageFile!.existsSync()) {
-                          return CircleAvatar(
-                            radius: 50,
-                            backgroundImage: FileImage(_profileImageFile!),
-                          );
-                        } else if (profileImage != null) {
-                          if (Uri.parse(profileImage).isAbsolute) {
-                            // Kalau URL
-                            return CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage(profileImage),
-                            );
-                          } else if (File(profileImage).existsSync()) {
-                            // Kalau path lokal
-                            return CircleAvatar(
-                              radius: 50,
-                              backgroundImage: FileImage(File(profileImage)),
-                            );
-                          } else {
-                            // **Kalau Base64**
-                            try {
-                              final decodedBytes = base64Decode(profileImage);
-                              return CircleAvatar(
-                                radius: 50,
-                                backgroundImage: MemoryImage(decodedBytes),
-                              );
-                            } catch (e) {
-                              // Kalau gagal decode, tampilkan icon default
-                              return _defaultProfileIcon();
+                      builder: (context, profileImageBase64, child) {
+                            if (profileImageBase64 != null && profileImageBase64.isNotEmpty) {
+                              try {
+                                // Debug log base64 length and snippet
+                                print('[DEBUG] profileImageBase64 length: \${profileImageBase64.length}');
+                                print('[DEBUG] profileImageBase64 snippet: \${profileImageBase64.substring(0, 30)}');
+
+                                // String base64Str = profileImageBase64;
+                                // if (!profileImageBase64.startsWith('data:image')) {
+                                //   final header = profileImageBase64.substring(0, 10).toLowerCase();
+                                //   String format = 'png';
+                                //   if (header.contains('jpeg') || header.contains('jpg')) {
+                                //     format = 'jpeg';
+                                //   } else if (header.contains('gif')) {
+                                //     format = 'gif';
+                                //   } else if (header.contains('bmp')) {
+                                //     format = 'bmp';
+                                //   } else if (header.contains('webp')) {
+                                //     format = 'webp';
+                                //   }
+                                //   base64Str = 'data:image/\$format;base64,\$profileImageBase64';
+                                // }
+                                // final base64Data = base64Str.contains(',')
+                                //     ? base64Str.split(',').last
+                                //     : base64Str;
+
+
+                                // String base642Decode = profileImageBase64;
+                                // if (base642Decode.length > 10000) {
+                                //   base642Decode = base642Decode.substring(0, 10000);
+                                //   print('[DEBUG] Truncated base64');
+                                // }
+                                final decodeBytes = base64Decode(profileImageBase64);
+                                return CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: MemoryImage(decodeBytes),
+                                );
+                              } catch (e) {
+                                print('[ERROR] Failed to decode base64 image: \$e');
+                                return _defaultProfileIcon();
+                              }
                             }
-                          }
-                        } else if (userProvider.user?.photoUrl != null) {
-                          if (Uri.parse(
-                            userProvider.user!.photoUrl!,
-                          ).isAbsolute) {
-                            return CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage(
-                                userProvider.user!.photoUrl!,
-                              ),
-                            );
-                          } else if (File(
-                            userProvider.user!.photoUrl!,
-                          ).existsSync()) {
-                            return CircleAvatar(
-                              radius: 50,
-                              backgroundImage: FileImage(
-                                File(userProvider.user!.photoUrl!),
-                              ),
-                            );
-                          } else {
-                            try {
-                              final decodedBytes = base64Decode(
-                                userProvider.user!.photoUrl!,
-                              );
-                              return CircleAvatar(
-                                radius: 50,
-                                backgroundImage: MemoryImage(decodedBytes),
-                              );
-                            } catch (e) {
-                              return _defaultProfileIcon();
-                            }
-                          }
-                        }
-                        return _defaultProfileIcon();
-                      },
+                            return _defaultProfileIcon();
+                          },
                     ),
                   ),
 

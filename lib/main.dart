@@ -5,7 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'backend/providers/auth_provider.dart';
 import 'backend/providers/destination_provider.dart';
 import 'backend/providers/userProfile_provider.dart';
-import '../screens/travel_screen.dart';
+// import '../screens/travel_screen.dart';
+import 'backend/routes/web/router.dart';
 
 void main() async {
   // Kondisi initialized Firebase (untuk Auth)
@@ -38,14 +39,31 @@ void main() async {
   );
 }
 
-class TravelKuyApp extends StatelessWidget {
+class TravelKuyApp extends StatefulWidget {
   const TravelKuyApp({super.key});
 
   @override
+  State<TravelKuyApp> createState() => _TravelKuyAppState();
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     debugShowCheckedModeBanner: false,
+  //     home: const TravelScreen(),
+  //   );
+  // }
+}
+
+class _TravelKuyAppState extends State<TravelKuyApp> {
+  final MyRouteDelegate _routeDelegate = MyRouteDelegate();
+  final MyRouteInfoParser _routeInfoParser = MyRouteInfoParser();
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: const TravelScreen(),
+      routerDelegate: _routeDelegate,
+      routeInformationParser: _routeInfoParser,
     );
   }
 }

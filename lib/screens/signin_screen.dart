@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:abp_travel/backend/utils/constants/constants_flutter.dart';
 import 'package:flutter/material.dart';
+import '../backend/routes/web/router.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
@@ -55,6 +56,8 @@ class SigninScreenState extends State<SigninScreen> {
   void _login() async {
     print("LOGIN BUTTON PRESSED");
 
+    
+
     if (!mounted) return; // Ensure widget is still mounted
 
     setState(() {
@@ -95,13 +98,16 @@ class SigninScreenState extends State<SigninScreen> {
         await _saveOrRemoveCredentials();
 
         if (!mounted) return;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder:
-                (context) => HomepageScreen(),
-          ),
-        );
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder:
+        //         (context) => HomepageScreen(),
+        //   ),
+        // );
+
+        final routerDelegate = Router.of(context).routerDelegate as MyRouteDelegate;
+        routerDelegate.goToDashboard();
       } else {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
@@ -174,6 +180,9 @@ class SigninScreenState extends State<SigninScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Obtain the router delegate from the current context
+    final routerDelegate = Router.of(context).routerDelegate as MyRouteDelegate;
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -246,13 +255,15 @@ class SigninScreenState extends State<SigninScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) => const ForgotPasswordScreen(),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder:
+                              //         (context) => const ForgotPasswordScreen(),
+                              //   ),
+                              // );
+
+                              routerDelegate.goToForgotPassword();
                             },
                             child: const Text(
                               "Forgot password?",
@@ -308,12 +319,14 @@ class SigninScreenState extends State<SigninScreen> {
                       const SizedBox(height: 20),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignupScreen(),
-                            ),
-                          );
+                          // Navigator.pushReplacement(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const SignupScreen(),
+                          //   ),
+                          // );
+
+                          routerDelegate.goToSignUp();
                         },
                         child: const Text("Don't have an account? Sign Up"),
                       ),

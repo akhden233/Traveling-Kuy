@@ -1,26 +1,26 @@
 [
     {
-        "merged": "com.example.abp_travel.app-debug-68:/mipmap-mdpi_ic_launcher.png.flat",
-        "source": "com.example.abp_travel.app-main-70:/mipmap-mdpi/ic_launcher.png"
+        "merged": "com.travellingkuy.app-debug-108:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.travellingkuy.app-main-110:/mipmap-mdpi/ic_launcher.png"
     },
     {
-        "merged": "com.example.abp_travel.app-debug-68:/mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "com.example.abp_travel.app-main-70:/mipmap-xxhdpi/ic_launcher.png"
+        "merged": "com.travellingkuy.app-debug-108:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.travellingkuy.app-main-110:/mipmap-xhdpi/ic_launcher.png"
     },
     {
-        "merged": "com.example.abp_travel.app-debug-68:/mipmap-hdpi_ic_launcher.png.flat",
-        "source": "com.example.abp_travel.app-main-70:/mipmap-hdpi/ic_launcher.png"
+        "merged": "com.travellingkuy.app-debug-108:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.travellingkuy.app-main-110:/mipmap-xxxhdpi/ic_launcher.png"
     },
     {
-        "merged": "com.example.abp_travel.app-debug-68:/drawable-v21_launch_background.xml.flat",
-        "source": "com.example.abp_travel.app-main-70:/drawable-v21/launch_background.xml"
+        "merged": "com.travellingkuy.app-debug-108:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.travellingkuy.app-main-110:/mipmap-xxhdpi/ic_launcher.png"
     },
     {
-        "merged": "com.example.abp_travel.app-debug-68:/mipmap-xxxhdpi_ic_launcher.png.flat",
-        "source": "com.example.abp_travel.app-main-70:/mipmap-xxxhdpi/ic_launcher.png"
+        "merged": "com.travellingkuy.app-debug-108:/drawable-v21_launch_background.xml.flat",
+        "source": "com.travellingkuy.app-main-110:/drawable-v21/launch_background.xml"
     },
     {
-        "merged": "com.example.abp_travel.app-debug-68:/mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "com.example.abp_travel.app-main-70:/mipmap-xhdpi/ic_launcher.png"
+        "merged": "com.travellingkuy.app-debug-108:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.travellingkuy.app-main-110:/mipmap-hdpi/ic_launcher.png"
     }
 ]

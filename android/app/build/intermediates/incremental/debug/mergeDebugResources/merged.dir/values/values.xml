@@ -1,5 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2" xmlns:ns2="http://schemas.android.com/tools">
+    <string-array name="akulaku_how_to_pay">
+        <item><data><![CDATA[Click <b>Pay Now</b>, then you will be directed to the <b>Akulaku PayLater Payment Center</b> page.]]></data></item>
+        <item><data><![CDATA[Select the desired installment tenor.]]></data></item>
+        <item><data><![CDATA[Login to your Akulaku PayLater account.]]></data></item>
+        <item><data><![CDATA[Enter the verification code (OTP) that has been sent to your mobile number, then click <b>Next</b>.]]></data></item>
+        <item><data><![CDATA[Confirm and finish your payment.]]></data></item>
+    </string-array>
+    <string-array name="alfa_group_how_to_pay">
+        <item><data><![CDATA[Tap <b>Download payment info</b> to get a copy of your unique payment details. ]]></data></item>
+        <item><data><![CDATA[Go to the nearest <b>Alfamart/Alfamidi/Dan+Dan</b> store near you and <b>show your barcode/payment code to the cashier</b>. ]]></data></item>
+        <item><data><![CDATA[The cashier will confirm your transaction details. ]]></data></item>
+        <item><data><![CDATA[Confirm your payment with the cashier. ]]></data></item>
+        <item><data><![CDATA[Once your transaction is successful, you’ll receive the payment confirmation e-mail. ]]></data></item>
+        <item><data><![CDATA[Please keep your Indomaret payment receipt in case you’ll need further help via support.]]></data></item>
+    </string-array>
+    <string-array name="bca_instruction_atm">
+        <item><data><![CDATA[Select <b>other transactions</b> on the main menu.]]></data></item>
+        <item><data><![CDATA[Select <b>transfer</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>BCA virtual account</b>.]]></data></item>
+        <item><data><![CDATA[Insert <b>BCA virtual account number</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payable amount</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="bca_instruction_klikbca">
+        <item><data><![CDATA[Select <b>fund transfer</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>transfer to BCA virtual account</b>.]]></data></item>
+        <item><data><![CDATA[Insert <b>BCA virtual account number</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payable amount</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="bca_instruction_mbca">
+        <item><data><![CDATA[Select <b>m-Transfer</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>BCA virtual account</b>.]]></data></item>
+        <item><data><![CDATA[Insert <b>BCA virtual account number</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payable amount</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete]]></data></item>
+    </string-array>
+    <string-array name="bca_klik_pay_how_to_pay">
+        <item><data><![CDATA[Tap <b>Pay Now</b> and you will be redirected to BCA KlikPay page.]]></data></item>
+        <item><data><![CDATA[Login and check your payment details.]]></data></item>
+        <item><data><![CDATA[Choose KlikBCA or BCA Card to pay for your transaction.]]></data></item>
+        <item><data><![CDATA[To authorize payment with BCA KlikPay, tap the <b>Send OTP</b> button to receive an OTP code via SMS, then enter code in the fields provided.]]></data></item>
+        <item><data><![CDATA[If your OTP code is correct, your payment will be processed immediately.]]></data></item>
+        <item><data><![CDATA[Once the payment is completed, success status will appear on the transaction screen and you will receive a notification e-mail.]]></data></item>
+    </string-array>
+    <string-array name="bni_instruction_atm">
+        <item><data><![CDATA[ Select <b>others</b> on the main menu.]]></data></item>
+        <item><data><![CDATA[ Select <b>transfer</b>.]]></data></item>
+        <item><data><![CDATA[Select to <b>BNI account</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payment account number</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payable amount</b>, then <b>confirm</b>.]]></data></item>
+        <item>Payment complete</item>
+    </string-array>
+    <string-array name="bni_instruction_internet_banking">
+        <item><data><![CDATA[Select <b>transaction</b>, then transfer administration Info.]]></data></item>
+        <item><data><![CDATA[Select <b>set destination account</b>.]]></data></item>
+        <item><data><![CDATA[Insert <b>account info</b>, then <b>confirm</b>]]></data></item>
+        <item><data><![CDATA[Select <b>transfer</b>, then transfer to <b>BNI account</b>.]]></data></item>
+        <item><data><![CDATA[Insert <b>payment details</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="bni_instruction_mobile_banking">
+        <item><data><![CDATA[Select <b>transfer</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>virtual account billing</b>.]]></data></item>
+        <item><data><![CDATA[Select the <b>debit account</b> you want to use.]]></data></item>
+        <item><data><![CDATA[Insert <b>virtual account number</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="bni_instruction_other_banks">
+        <item><data><![CDATA[Select your <b>preferred bank & payment channel</b> (ATM/internet/mobile banking).]]></data></item>
+        <item><data><![CDATA[Select <b>transfer to other bank</b>.]]></data></item>
+        <item><data><![CDATA[Insert <b>BNI virtual account number</b>.]]></data></item>
+        <item><data><![CDATA[Insert <b>the payable amount</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="bri_instruction_atm">
+    <item><data><![CDATA[Select <b>other transactions</b> on the main menu.]]></data></item>
+    <item><data><![CDATA[Select <b>payment</b>.]]></data></item>
+    <item><data><![CDATA[Select <b>other</b>.]]></data></item>
+    <item><data><![CDATA[Select <b>BRIVA</b>.]]></data></item>
+    <item><data><![CDATA[Insert <b>BRIVA number</b>, then <b>confirm</b>.]]></data></item>
+    <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="bri_instruction_brimo">
+    <item><data><![CDATA[Select <b>payment</b>.]]></data></item>
+    <item><data><![CDATA[Select <b>BRIVA</b>.]]></data></item>
+    <item><data><![CDATA[Insert <b>BRIVA number</b>, then <b>confirm</b>.]]></data></item>
+    <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="bri_instruction_ib">
+    <item><data><![CDATA[Select <b>payment &amp; purchase</b>.]]></data></item>
+    <item><data><![CDATA[Select <b>BRIVA</b>.]]></data></item>
+    <item><data><![CDATA[Insert <b>BRIVA number</b>, then <b>confirm</b>. ]]></data></item>
+    <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="bri_instruction_other_bank">
+    <item><data><![CDATA[Select your <b>preferred bank & payment channel</b> (ATM/internet/mobile banking).]]></data></item>
+    <item><data><![CDATA[Select <b>transfer to other bank</b>.]]></data></item>
+    <item><data><![CDATA[Insert <b>BRIVA number</b>.]]></data></item>
+    <item><data><![CDATA[Insert the <b>payable amount<b/>, then <b>confirm</b>.]]></data></item>
+    <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="brimo_how_to_pay">
+        <item><data><![CDATA[Tap <b>Pay now</b> and you will be redirected to BRImo page.]]></data></item>
+        <item><data><![CDATA[Login to your BRImo account.]]></data></item>
+        <item><data><![CDATA[Follow the instruction on the website and complete your payment.]]></data></item>
+        <item><data><![CDATA[Once confirmed, your transaction will be processed online and your BRI account balance will be deducted automatically.]]></data></item>
+        <item><data><![CDATA[Transaction will be cancelled if the payment is not completed within 2 hours.]]></data></item>
+    </string-array>
+    <string-array name="cimb_instruction_atm">
+        <item><data><![CDATA[Select <b>bill payment</b> menu.]]></data></item>
+        <item><data><![CDATA[Select <b>virtual account</b>.]]></data></item>
+        <item><data><![CDATA[Input <b>virtual account number</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment completed.]]></data></item>
+    </string-array>
+    <string-array name="cimb_instruction_octo_clicks">
+        <item><data><![CDATA[Select <b>bill payment</b> menu.]]></data></item>
+        <item><data><![CDATA[Select <b>mobile virtual account</b>.]]></data></item>
+        <item><data><![CDATA[Input <b>virtual account number</b>, then click <b>continue to verify details</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>send OTP to proceed</b>.]]></data></item>
+        <item><data><![CDATA[Input <b>OTP</b> sent to your mobile number, then <b>confirm</b>]]></data></item>
+        <item><data><![CDATA[Payment completed.]]></data></item>
+    </string-array>
+    <string-array name="cimb_instruction_octo_mobile">
+        <item><data><![CDATA[Select <b>transfer</b> menu.]]></data></item>
+        <item><data><![CDATA[Select <b>transfer to other CIMB Niaga account</b>.]]></data></item>
+        <item><data><![CDATA[Select your source account: <b>CASA</b> atau <b>rekening ponsel</b>]]></data></item>
+        <item><data><![CDATA[Input the <b>virtual account number</b>.]]></data></item>
+        <item><data><![CDATA[Input the <b>payable amount</b>.]]></data></item>
+        <item><data><![CDATA[Follow the instructions to complete the payment.]]></data></item>
+        <item><data><![CDATA[Payment completed.]]></data></item>
+    </string-array>
+    <string-array name="cimb_instruction_other_bank">
+        <item><data><![CDATA[Select your <b>preferred bank & payment channel</b> (ATM/internet/mobile banking).]]></data></item>
+        <item><data><![CDATA[Select <b>transfer to other bank</b>.]]></data></item>
+        <item><data><![CDATA[Input <b>CIMB Niaga virtual account number</b>.]]></data></item>
+        <item><data><![CDATA[Input the <b>payable amount</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <array name="com_google_android_gms_fonts_certs">
+        <item>@array/com_google_android_gms_fonts_certs_dev</item>
+        <item>@array/com_google_android_gms_fonts_certs_prod</item>
+    </array>
+    <string-array name="com_google_android_gms_fonts_certs_dev">
+        <item>
+            MIIEqDCCA5CgAwIBAgIJANWFuGx90071MA0GCSqGSIb3DQEBBAUAMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbTAeFw0wODA0MTUyMzM2NTZaFw0zNTA5MDEyMzM2NTZaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbTCCASAwDQYJKoZIhvcNAQEBBQADggENADCCAQgCggEBANbOLggKv+IxTdGNs8/TGFy0PTP6DHThvbbR24kT9ixcOd9W+EaBPWW+wPPKQmsHxajtWjmQwWfna8mZuSeJS48LIgAZlKkpFeVyxW0qMBujb8X8ETrWy550NaFtI6t9+u7hZeTfHwqNvacKhp1RbE6dBRGWynwMVX8XW8N1+UjFaq6GCJukT4qmpN2afb8sCjUigq0GuMwYXrFVee74bQgLHWGJwPmvmLHC69EH6kWr22ijx4OKXlSIx2xT1AsSHee70w5iDBiK4aph27yH3TxkXy9V89TDdexAcKk/cVHYNnDBapcavl7y0RiQ4biu8ymM8Ga/nmzhRKya6G0cGw8CAQOjgfwwgfkwHQYDVR0OBBYEFI0cxb6VTEM8YYY6FbBMvAPyT+CyMIHJBgNVHSMEgcEwgb6AFI0cxb6VTEM8YYY6FbBMvAPyT+CyoYGapIGXMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbYIJANWFuGx90071MAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEEBQADggEBABnTDPEF+3iSP0wNfdIjIz1AlnrPzgAIHVvXxunW7SBrDhEglQZBbKJEk5kT0mtKoOD1JMrSu1xuTKEBahWRbqHsXclaXjoBADb0kkjVEJu/Lh5hgYZnOjvlba8Ld7HCKePCVePoTJBdI4fvugnL8TsgK05aIskyY0hKI9L8KfqfGTl1lzOv2KoWD0KWwtAWPoGChZxmQ+nBli+gwYMzM1vAkP+aayLe0a1EQimlOalO762r0GXO0ks+UeXde2Z4e+8S/pf7pITEI/tP+MxJTALw9QUWEv9lKTk+jkbqxbsh8nfBUapfKqYn0eidpwq2AzVp3juYl7//fKnaPhJD9gs=
+        </item>
+    </string-array>
+    <string-array name="com_google_android_gms_fonts_certs_prod">
+        <item>
+            MIIEQzCCAyugAwIBAgIJAMLgh0ZkSjCNMA0GCSqGSIb3DQEBBAUAMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtHb29nbGUgSW5jLjEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDAeFw0wODA4MjEyMzEzMzRaFw0zNjAxMDcyMzEzMzRaMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtHb29nbGUgSW5jLjEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDCCASAwDQYJKoZIhvcNAQEBBQADggENADCCAQgCggEBAKtWLgDYO6IIrgqWbxJOKdoR8qtW0I9Y4sypEwPpt1TTcvZApxsdyxMJZ2JORland2qSGT2y5b+3JKkedxiLDmpHpDsz2WCbdxgxRczfey5YZnTJ4VZbH0xqWVW/8lGmPav5xVwnIiJS6HXk+BVKZF+JcWjAsb/GEuq/eFdpuzSqeYTcfi6idkyugwfYwXFU1+5fZKUaRKYCwkkFQVfcAs1fXA5V+++FGfvjJ/CxURaSxaBvGdGDhfXE28LWuT9ozCl5xw4Yq5OGazvV24mZVSoOO0yZ31j7kYvtwYK6NeADwbSxDdJEqO4k//0zOHKrUiGYXtqw/A0LFFtqoZKFjnkCAQOjgdkwgdYwHQYDVR0OBBYEFMd9jMIhF1Ylmn/Tgt9r45jk14alMIGmBgNVHSMEgZ4wgZuAFMd9jMIhF1Ylmn/Tgt9r45jk14aloXikdjB0MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLR29vZ2xlIEluYy4xEDAOBgNVBAsTB0FuZHJvaWQxEDAOBgNVBAMTB0FuZHJvaWSCCQDC4IdGZEowjTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBAUAA4IBAQBt0lLO74UwLDYKqs6Tm8/yzKkEu116FmH4rkaymUIE0P9KaMftGlMexFlaYjzmB2OxZyl6euNXEsQH8gjwyxCUKRJNexBiGcCEyj6z+a1fuHHvkiaai+KL8W1EyNmgjmyy8AW7P+LLlkR+ho5zEHatRbM/YAnqGcFh5iZBqpknHf1SKMXFh4dd239FJ1jWYfbMDMy3NS5CTMQ2XFI1MvcyUTdZPErjQfTbQe3aDQsQcafEQPD+nqActifKZ0Np0IS9L9kR/wbNvyz6ENwPiTrjV2KRkEjH78ZMcUQXg0L3BYHJ3lc69Vs5Ddf9uUGGMYldX3WfMBEmh/9iFBDAaTCK
+        </item>
+    </string-array>
+    <string-array name="danamon_how_to_pay">
+        <item><data><![CDATA[Tap <b>Pay Now</b> and you will be redirected to Danamon Online Banking page.]]></data></item>
+        <item><data><![CDATA[Login and select the source of fund you’d like to use.]]></data></item>
+        <item><data><![CDATA[Recheck your transaction details.]]></data></item>
+		<item><data><![CDATA[Confirm your payment by entering the token code, and click <b>Next</b>.]]></data></item>
+        <item><data><![CDATA[Keep the merchant reference and payment reference number, then click <b>Next</b> to return to the merchant’s page.]]></data></item>
+    </string-array>
+    <string-array name="in_progress_desc">
+        <item><data><![CDATA[If you make a payment using an e-wallet or a credit/debit card, you have completed your payment.]]></data></item>
+        <item><data><![CDATA[If you made a payment via bank transfer, please continue the payment process.]]></data></item>
+    </string-array>
+    <string-array name="indomaret_how_to_pay">
+        <item><data><![CDATA[Tap <b>Download payment info</b> to get a copy of your unique payment details. ]]></data></item>
+        <item><data><![CDATA[If you’re going to pay <b>on the counter</b>, go to the nearest Indomaret store and <b>show your payment code/barcode to the cashier</b>. ]]></data></item>
+        <item><data><![CDATA[The cashier will confirm your transaction details. Once your transaction is successful, you’ll receive the payment confirmation e-mail. ]]></data></item>
+        <item><data><![CDATA[If you’re going to pay via <b>i.saku</b>, open the app and tap <b>Bayar</b>. ]]></data></item>
+        <item><data><![CDATA[Choose the merchant you’d like to pay to, and enter your <b>payment code</b>. ]]></data></item>
+        <item><data><![CDATA[Tap <b>Selanjutnya</b> and check your transaction details. ]]></data></item>
+        <item><data><![CDATA[Tap <b>Bayar sekarang</b> to confirm your payment. ]]></data></item>
+        <item><data><![CDATA[Please keep your Indomaret payment receipt in case you’ll need further help via support.]]></data></item>
+    </string-array>
+    <string-array name="klik_bca_how_to_pay">
+        <item><data><![CDATA[Tap <b>Pay now</b> and you will be redirected to KlikBCA page.]]></data></item>
+        <item><data><![CDATA[Login to your KlikBCA account.]]></data></item>
+        <item><data><![CDATA[Choose <b>e-commerce Payment</b> menu.]]></data></item>
+        <item><data><![CDATA[Choose <b>Others</b> category.]]></data></item>
+        <item><data><![CDATA[Choose <b>Company Name</b>.]]></data></item>
+        <item><data><![CDATA[Click <b>Continue</b>.]]></data></item>
+        <item><data><![CDATA[Choose the transaction that you want to pay and tap <b>Continue</b>.]]></data></item>
+        <item><data><![CDATA[Confirm the payment by entering the token key and choose <b>Submit/Continue</b>.]]></data></item>
+    </string-array>
+    <string-array name="kredivo_how_to_pay">
+        <item><data><![CDATA[Click <b>Pay Now</b>, then you will be directed to Kredivo page.]]></data></item>
+        <item><data><![CDATA[Login to your Kredivo account.]]></data></item>
+        <item><data><![CDATA[Choose the installment term.]]></data></item>
+        <item><data><![CDATA[Enter the OTP code that has been sent to your mobile number.]]></data></item>
+        <item><data><![CDATA[Tap <b>Pay</b>.]]></data></item>
+        <item><data><![CDATA[You\'ll get confirmation message on the screen once transaction is successful.]]></data></item>
+    </string-array>
+    <string-array name="mandiri_instruction_atm">
+        <item><data><![CDATA[Select <b>Pay/Buy</b> on the main menu.]]></data></item>
+        <item><data><![CDATA[Select <b>Others</b>.]]></data></item>
+        <item><data><![CDATA[Select Multi Payment.]]></data></item>
+        <item><data><![CDATA[Insert company code <b>70012</b>.]]></data></item>
+        <item><data><![CDATA[Insert <b>payment code</b>, then <b>confirm</b>.]]></data></item>
+        <item>Payment complete</item>
+    </string-array>
+    <string-array name="mandiri_instruction_internet_banking">
+        <item><data><![CDATA[Select <b>payment</b> on the main menu]]></data></item>
+        <item><data><![CDATA[Select <b>multi payment</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>from account</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>Midtrans</b> in the <b>service provider</b> field.]]></data></item>
+        <item><data><![CDATA[Insert <b>payment code</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="octo_click_how_to_pay">
+        <item><data><![CDATA[Tap <b>Pay now</b> and you will be redirected to OCTO Clicks page.]]></data></item>
+        <item><data><![CDATA[Login to your Octo Clicks account.]]></data></item>
+        <item><data><![CDATA[Follow the instruction on the website and complete your payment.]]></data></item>
+        <item><data><![CDATA[Once confirmed, your transaction will be processed online and your CIMB account balance will be deducted automatically.]]></data></item>
+        <item><data><![CDATA[Transaction will be cancelled if the payment is not completed within 2 hours.]]></data></item>
+        <item><data><![CDATA[Please make sure that there is no pop-up blocker on your browser.]]></data></item>
+    </string-array>
+    <string-array name="other_bank_instruction_alto">
+        <item><data><![CDATA[Select <b>other transactions</b> on the main menu.]]></data></item>
+        <item><data><![CDATA[Select <b>transfer</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>other bank account</b>.]]></data></item>
+        <item><data><![CDATA[Insert --BANK_CODE-- as the <b>bank code</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payable amount</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payment account number</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="other_bank_instruction_atm_bersama">
+        <item><data><![CDATA[Select <b>other transactions</b> on the main menu.]]></data></item>
+        <item><data><![CDATA[Select <b>transfer</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>between online banks</b>.]]></data></item>
+        <item><data><![CDATA[Insert --BANK_CODE-- as the <b>bank code</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payable amount</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payment account number</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="other_bank_instruction_prima">
+        <item><data><![CDATA[Select <b>other transactions</b> on the main menu.]]></data></item>
+        <item><data><![CDATA[Select <b>transfer</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>other bank account</b>.]]></data></item>
+        <item><data><![CDATA[Insert --BANK_CODE-- as the <b>bank code</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payable amount</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payment account number</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="permata_instruction_other_bank">
+        <item><data><![CDATA[Select your <b>preferred bank & payment channel</b> (ATM/internet/mobile banking).]]></data></item>
+        <item><data><![CDATA[Select <b>transfer to other bank</b>.]]></data></item>
+        <item><data><![CDATA[Insert <b>virtual account number</b>.]]></data></item>
+        <item><data><![CDATA[Insert the <b>payable amount<b/>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="permata_instruction_permata">
+        <item><data><![CDATA[Select <b>other transactions</b> on the main menu.]]></data></item>
+        <item><data><![CDATA[Select <b>payment</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>other payments</b>.]]></data></item>
+        <item><data><![CDATA[Select <b>virtual account</b>.]]></data></item>
+        <item><data><![CDATA[Insert <b>Permata virtual account number</b>, then <b>confirm</b>.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="redirection_instruction_gopay_message">
+        <item><data><![CDATA[Tap <b>Pay now</b>.]]></data></item>
+        <item><data><![CDATA[<b>Gojek</b> app will open.]]></data></item>
+        <item><data><![CDATA[Confirm payment in the <b>Gojek</b> app.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="redirection_instruction_shopeepay_message">
+        <item><data><![CDATA[Tap <b>Pay now</b>.]]></data></item>
+        <item><data><![CDATA[<b>Shopee</b> app will open.]]></data></item>
+        <item><data><![CDATA[Confirm payment in the <b>Shopee</b> app.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="scan_qr_instruction_gopay">
+        <item><data><![CDATA[Open your <b>Gojek</b> or <b>other e-wallet app</b>.]]></data></item>
+        <item><data><![CDATA[Scan the <b>QR code</b> on your monitor.]]></data></item>
+        <item><data><![CDATA[Confirm payment in the app.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="scan_qr_instruction_shopeepay_message">
+        <item><data><![CDATA[Open your <b>Shopee</b> or <b>other e-wallet app</b>.]]></data></item>
+        <item><data><![CDATA[Scan the <b>QR code</b> on your monitor.]]></data></item>
+        <item><data><![CDATA[Confirm payment in the app.]]></data></item>
+        <item><data><![CDATA[Payment complete.]]></data></item>
+    </string-array>
+    <string-array name="uob_tmrw_how_to_pay">
+        <item><data><![CDATA[Click <b>Pay now</b> and you will be redirected to TMRW app.]]></data></item>
+        <item><data><![CDATA[Login using your userID &amp; password.]]></data></item>
+        <item><data><![CDATA[Select the account that you would like to pay from and choose &#34;Next&#34;.]]></data></item>
+        <item><data><![CDATA[Review your transaction details, swipe right to confirm.]]></data></item>
+        <item><data><![CDATA[Enter your Secure PIN for verification to complete the payment.]]></data></item>
+    </string-array>
+    <string-array name="uob_web_how_to_pay">
+        <item><data><![CDATA[Click <b>Pay now</b> and you will be redirected to UOB EZ Pay website.]]></data></item>
+        <item><data><![CDATA[Login using your userID &amp; password.]]></data></item>
+        <item><data><![CDATA[Enter OTP you\'ll receive via SMS when prompted.]]></data></item>
+        <item><data><![CDATA[Select the account that you would like to pay from and choose &#34;Continue&#34;.]]></data></item>
+        <item><data><![CDATA[Review your transaction details, enter the OTP you\'ll receive via SMS.]]></data></item>
+        <item><data><![CDATA[Choose &#34;Confirm&#34; to complete the payment.]]></data></item>
+    </string-array>
     <attr format="color" name="animationBackgroundColor"/>
     <attr format="reference" name="cardViewStyle"/>
     <attr format="reference" name="coordinatorLayoutStyle"/>
@@ -60,10 +357,11 @@
     <attr format="string" name="tag"/>
     <attr format="string" name="title"/>
     <bool name="abc_action_bar_embed_tabs">true</bool>
-    <bool name="abc_allow_stacked_button_bar">false</bool>
     <bool name="abc_config_actionMenuItemAllCaps">true</bool>
     <bool name="config_materialPreferenceIconSpaceReserved">false</bool>
-    <color name="abc_input_method_navigation_guard">@android:color/black</color>
+    <bool name="isTablet">false</bool>
+    <color name="abc_decor_view_status_guard">#ff000000</color>
+    <color name="abc_decor_view_status_guard_light">#ffffffff</color>
     <color name="abc_search_url_text_normal">#7fa87f</color>
     <color name="abc_search_url_text_pressed">@android:color/black</color>
     <color name="abc_search_url_text_selected">@android:color/black</color>
@@ -218,6 +516,9 @@
     <dimen name="abc_seekbar_track_background_height_material">2dp</dimen>
     <dimen name="abc_seekbar_track_progress_height_material">2dp</dimen>
     <dimen name="abc_select_dialog_padding_start_material">20dp</dimen>
+    <dimen name="abc_star_big">48dp</dimen>
+    <dimen name="abc_star_medium">36dp</dimen>
+    <dimen name="abc_star_small">16dp</dimen>
     <dimen name="abc_switch_padding">3dp</dimen>
     <dimen name="abc_text_size_body_1_material">14sp</dimen>
     <dimen name="abc_text_size_body_2_material">14sp</dimen>
@@ -354,15 +655,24 @@
     <item name="action_menu_divider" type="id"/>
     <item name="action_menu_presenter" type="id"/>
     <item name="amu_text" type="id"/>
+    <item name="androidx_compose_ui_view_composition_context" type="id"/>
     <item name="androidx_window_activity_scope" type="id"/>
+    <item name="coil_request_manager" type="id"/>
+    <item name="compose_view_saveable_id_tag" type="id"/>
+    <item name="consume_window_insets_tag" type="id"/>
     <item name="fragment_container_view_tag" type="id"/>
     <item name="ghost_view" type="id"/>
     <item name="ghost_view_holder" type="id"/>
+    <item name="hide_in_inspector_tag" type="id"/>
     <item name="home" type="id"/>
+    <item name="inspection_slot_table_set" type="id"/>
+    <item name="is_pooling_container_tag" type="id"/>
     <item name="item_touch_helper_previous_elevation" type="id"/>
     <item name="line1" type="id"/>
     <item name="line3" type="id"/>
+    <item name="nav_controller_view_tag" type="id"/>
     <item name="parent_matrix" type="id"/>
+    <item name="pooling_container_listener_holder_tag" type="id"/>
     <item name="preferences_detail" type="id"/>
     <item name="preferences_header" type="id"/>
     <item name="preferences_sliding_pane_layout" type="id"/>
@@ -400,6 +710,7 @@
     <id name="view_tree_saved_state_registry_owner"/>
     <id name="view_tree_view_model_store_owner"/>
     <item name="visible_removing_fragment_view_tag" type="id"/>
+    <item name="wrapped_composition_tag" type="id"/>
     <integer name="abc_config_activityDefaultDur">220</integer>
     <integer name="abc_config_activityShortDur">150</integer>
     <integer name="cancel_button_image_alpha">127</integer>
@@ -435,9 +746,48 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with <ns1:g example="Mail" id="application_name">%s</ns1:g></string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
+    <string name="action_close">Close</string>
+    <string name="action_go_back">Go Back</string>
+    <string name="action_go_forward">Go Forward</string>
+    <string name="action_reload">Reload</string>
+    <string name="action_share">Share</string>
+    <string name="akulaku_cta">Pay now</string>
+    <string name="akulaku_instruction">Akulaku PayLater allows you to shop in installments without using a credit card.</string>
+    <string name="akulaku_title">Akulaku PayLater</string>
+    <string name="alfa_group_cta_1">Download payment info</string>
+    <string name="alfa_group_cta_2">Close this page</string>
+    <string name="alfa_group_cta_reload">Reload</string>
+    <string name="alfa_group_failed_to_load_payment_code">Failed to load</string>
+    <string name="alfa_group_instruction">Please go to nearest Alfa Group store and show the barcode/payment code to the cashier.</string>
+    <string name="alfa_group_loading_payment_code">Loading…</string>
+    <string name="alfa_group_payment_code_title">Payment code</string>
     <string name="android.credentials.TYPE_PASSWORD_CREDENTIAL">Password</string>
     <string name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">Passkey</string>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
+    <string name="bank_bca">BCA</string>
+    <string name="bank_bni">BNI</string>
+    <string name="bank_bri">BRI</string>
+    <string name="bank_cimb">CIMB Niaga</string>
+    <string name="bank_mandiri">Mandiri</string>
+    <string name="bank_other">Other banks</string>
+    <string name="bank_permata">Permata</string>
+    <string name="bca_instruction_atm_title">ATM BCA</string>
+    <string name="bca_instruction_klikbca_title">KlikBCA</string>
+    <string name="bca_instruction_mbca_titel">m-BCA</string>
+    <string name="bca_klik_pay_cta">Pay now</string>
+    <string name="bca_klik_pay_instruction">Please complete BCA KlikPay through BCA KlikPay app/website.</string>
+    <string name="bca_klik_pay_title">BCA KlikPay</string>
+    <string name="bni_instruction_atm_title">ATM BNI</string>
+    <string name="bni_instruction_internet_banking_title">Internet Banking</string>
+    <string name="bni_instruction_mobile_banking_title">Internet Banking</string>
+    <string name="bni_instruction_other_banks_title">Via other banks</string>
+    <string name="bri_instruction_atm_title">ATM BRI</string>
+    <string name="bri_instruction_brimo_title">BRImo</string>
+    <string name="bri_instruction_ib_title">IB BRI</string>
+    <string name="bri_instruction_other_bank_title">Via other banks</string>
+    <string name="brimo_cta">Pay now</string>
+    <string name="brimo_instruction">Please complete BRImo payment through BRI app/website.</string>
+    <string name="brimo_title">BRImo</string>
     <string name="call_notification_answer_action">Answer</string>
     <string name="call_notification_answer_video_action">Video</string>
     <string name="call_notification_decline_action">Decline</string>
@@ -445,6 +795,59 @@
     <string name="call_notification_incoming_text">Incoming call</string>
     <string name="call_notification_ongoing_text">Ongoing call</string>
     <string name="call_notification_screening_text">Screening an incoming call</string>
+    <string name="cancelled_bottom_message">You can now close this browser</string>
+    <string name="cancelled_desc">You haven\'t been charged with anything for this transaction. Please retry placing your order.</string>
+    <string name="cancelled_title">Your transaction has been cancelled</string>
+    <string name="cant_continue_promo_card_not_eligible">Can\'t use this promo with selected card</string>
+    <string name="cant_continue_promo_dont_want_to_use_promo">Proceed without promo</string>
+    <string name="cant_continue_promo_installment_condition">Only available for %s installment</string>
+    <string name="cant_continue_promo_limited_card_condition">Only available for %s card</string>
+    <string name="cant_continue_promo_not_available_with_installment">Promo not available for installments</string>
+    <string name="card_error_bank_blacklisted_by_merchant">"Can\'t use this card for this merchant.\nTry using another card/payment method."</string>
+    <string name="card_error_blocked">This card has been blocked.</string>
+    <string name="card_error_cant_be_used_for_online_payments">This card can\'t be used for online transactions.</string>
+    <string name="card_error_declined_by_bank_allowed_to_retry">This card got declined by the bank. Try using another card/payment method.</string>
+    <string name="card_error_declined_disallow_retry_content">Failed to process payment. Please place your order again.</string>
+    <string name="card_error_declined_disallow_retry_cta">OK</string>
+    <string name="card_error_declined_disallow_retry_title">Card declined by bank</string>
+    <string name="card_error_declined_not_allowed_to_retry">Card declined by bank</string>
+    <string name="card_error_empty_card_number">Please enter your card number.</string>
+    <string name="card_error_empty_cvv">CVV can\'t be empty.</string>
+    <string name="card_error_empty_expiry">Expiry can\'t be empty.</string>
+    <string name="card_error_exceeding_limit">Card limit has been exceeded.</string>
+    <string name="card_error_failed_to_process">Failed to process payment. Please place your order again.</string>
+    <string name="card_error_hasnt_been_registered_for_online_payments">This card hasn\'t been registered for online transactions.</string>
+    <string name="card_error_insufficient_fund">Insufficient card fund. Try another card or payment method.</string>
+    <string name="card_error_invalid_card_number">Make sure your card number are correct.</string>
+    <string name="card_error_invalid_cvv">Invalid CVV.</string>
+    <string name="card_error_invalid_expiry">Invalid expiration detail.</string>
+    <string name="card_error_missing_stollen_card">This card got declined by the bank. Try using another card/payment method.</string>
+    <string name="cc_dc_main_screen_card_number">Card number</string>
+    <string name="cc_dc_main_screen_cta">Pay now</string>
+    <string name="cc_dc_main_screen_cvv">CVV</string>
+    <string name="cc_dc_main_screen_email">E-mail</string>
+    <string name="cc_dc_main_screen_email_invalid">Invalid email.</string>
+    <string name="cc_dc_main_screen_expiry">Expiration date</string>
+    <string name="cc_dc_main_screen_format_not_placeholder">0</string>
+    <string name="cc_dc_main_screen_placeholder_card_number">0000 0000 0000 0000</string>
+    <string name="cc_dc_main_screen_placeholder_cvv">***</string>
+    <string name="cc_dc_main_screen_placeholder_email">youremail@email.com</string>
+    <string name="cc_dc_main_screen_placeholder_expiry">MM/YY</string>
+    <string name="cc_dc_main_screen_placeholder_phone">1234567890</string>
+    <string name="cc_dc_main_screen_remaining_payment_time">Pay within </string>
+    <string name="cc_dc_main_screen_save_this_card">Save this card</string>
+    <string name="cc_dc_main_screen_security_disclaimer">Secure payments by Midtrans</string>
+    <string name="cc_dc_main_screen_tlp">Phone</string>
+    <string name="cc_dc_main_screen_use_point_bank">Use point</string>
+    <string name="cc_dc_main_screen_use_point_bank_bni_saved_card">Redeem BNI Rewards Point</string>
+    <string name="cc_dc_saved_card_enter_cvv">Enter CVV</string>
+    <string name="cc_dc_saved_card_use_another_card">Use another card</string>
+    <string name="cimb_instruction_atm_title">ATM CIMB NIAGA</string>
+    <string name="cimb_instruction_octo_clicks_title">OCTO Clicks</string>
+    <string name="cimb_instruction_octo_mobile_title">OCTO Mobile</string>
+    <string name="cimb_instruction_other_bank_title">Via other banks</string>
+    <string name="close_drawer">"Close navigation menu"</string>
+    <string name="close_sheet">"Close sheet"</string>
     <string name="com_facebook_device_auth_instructions">Visit &lt;b>facebook.com/device&lt;/b> and enter the code shown above.</string>
     <string name="com_facebook_image_download_unknown_error">Unexpected error while downloading an image.</string>
     <string name="com_facebook_internet_permission_error_message">WebView login requires INTERNET permission</string>
@@ -488,24 +891,210 @@
     <string name="common_signin_button_text_long">Sign in with Google</string>
     <string name="copy">Copy</string>
     <string name="copy_toast_msg">Link copied to clipboard</string>
+    <string name="danamon_cta">Pay now</string>
+    <string name="danamon_instruction">Make sure you already have Danamon Online Banking account to complete payment through Danamon’s app/website.</string>
+    <string name="danamon_title">Danamon Online Banking</string>
+    <string name="default_error_message">"Invalid input"</string>
+    <string name="default_popup_window_title" ns2:ignore="ExtraTranslation">"Pop-Up Window"</string>
     <string name="default_web_client_id" translatable="false">586337861286-aejt2mvm12u483orrh69cm3h3mabjpkk.apps.googleusercontent.com</string>
+    <string name="dropdown_menu">"Dropdown menu"</string>
+    <string name="error_failed_load">Failed to load</string>
     <string name="expand_button_title">Advanced</string>
+    <string name="expired_bottom_message">You can now close this page</string>
+    <string name="expired_desc">Unable to process your transaction because you\'ve exceeded the allocated payment time. Please place your order again.</string>
+    <string name="expired_double_tab_desc">Failed to process your transaction. Please place your order again.</string>
+    <string name="expired_double_tab_title">Your transaction has expired</string>
+    <string name="expired_title">Your transaction has expired</string>
+    <string name="failed_otp_cta">Okay</string>
+    <string name="failed_otp_desc">Please retry payment.</string>
+    <string name="failed_otp_title">Failed/cancelled OTP</string>
     <string name="fallback_menu_item_copy_link">Copy link</string>
     <string name="fallback_menu_item_open_in_browser">Open in browser</string>
     <string name="fallback_menu_item_share_link">Share link</string>
     <string name="gcm_defaultSenderId" translatable="false">586337861286</string>
+    <string name="general_instruction_bca">Complete payment from BCA to the virtual account number below.</string>
+    <string name="general_instruction_billing_number_mandiri_only">Billing number</string>
+    <string name="general_instruction_bni_bri_permata_other_bank">Complete payment from any bank to the virtual account number below.</string>
+    <string name="general_instruction_cimb">Complete payment from CIMB Niaga to the virtual account number below.</string>
+    <string name="general_instruction_company_code_mandiri_only">Company code</string>
+    <string name="general_instruction_copied_icon_text">Copied</string>
+    <string name="general_instruction_copy_icon_text">Copy</string>
+    <string name="general_instruction_destination_bank_code_permata_only">Bank code</string>
+    <string name="general_instruction_mandiri">Complete payment from Mandiri to the virtual account number below.</string>
+    <string name="general_instruction_va_number_title">Virtual account number</string>
     <string name="google_api_key" translatable="false">AIzaSyBpWuqbF2TTbVfMFXplmegtSso-9z3YJNM</string>
     <string name="google_app_id" translatable="false">1:586337861286:android:0cd3e4fb80ad94f814be67</string>
     <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBpWuqbF2TTbVfMFXplmegtSso-9z3YJNM</string>
     <string name="google_storage_bucket" translatable="false">travellingkuy0190.firebasestorage.app</string>
+    <string name="i_have_already_paid">Back to merchant</string>
+    <string name="in_progress">In progress</string>
+    <string name="in_progress_title">Your transaction is being processed</string>
+    <string name="incorrect_card_info_content">Please make sure you enter a correct card detail and try again.</string>
+    <string name="incorrect_card_info_cta">Review card detail</string>
+    <string name="incorrect_card_info_title">Your card info is incorrect</string>
+    <string name="indeterminate">Partially checked</string>
+    <string name="indomaret_cta_1">Download payment info</string>
+    <string name="indomaret_cta_2">Close this page</string>
+    <string name="indomaret_cta_reload">Reload</string>
+    <string name="indomaret_failed_to_load_payment_code">Failed to load</string>
+    <string name="indomaret_instruction">Show barcode to the cashier or enter payment code on i.saku app.</string>
+    <string name="indomaret_loading_payment_code">Loading…</string>
+    <string name="indomaret_payment_code_title">Payment code</string>
+    <string name="installment_cc_not_match_installment">The selected installment is not supported by the card.</string>
+    <string name="installment_dc_error">Installment is not available for debit card.</string>
+    <string name="installment_full_payment">Full payment</string>
+    <string name="installment_selection_error">Invalid installment</string>
+    <string name="installment_term">%s months</string>
+    <string name="installment_title">Choose installment</string>
+    <string name="invalid_merchant_base_url">merchant base url is required if you want to do checkout from SDK, please set merchant base url on Midtrans SDK</string>
+    <string name="invalid_snap_token">snap token cannot be null or empty, please checkout transaction to get snapToken</string>
+    <string name="klik_bca_cta">Pay now</string>
+    <string name="klik_bca_id_field_label">Enter KlikBCA User ID</string>
+    <string name="klik_bca_instruction">Please provide your KlikBCA User ID on the field below for us to verify your transaction.</string>
+    <string name="klik_bca_placeholder">Your KlikBCA ID</string>
+    <string name="klik_bca_title">KlikBCA</string>
+    <string name="klik_bca_validation_error">KlikBCA ID can\'t be empty</string>
+    <string name="kredivo_cta">Pay now</string>
+    <string name="kredivo_instruction">Please complete the payment through Kredivo app/website.</string>
+    <string name="kredivo_title">Kredivo</string>
+    <string name="mandiri_description">Complete payment from Mandiri to the virtual account number below.</string>
+    <string name="mandiri_instruction_atm_title">ATM Mandiri</string>
+    <string name="mandiri_instruction_internet_banking_title">Internet Banking</string>
+    <string name="mandiri_kode_perusahaan">Company code</string>
+    <string name="mandiri_nomor_tagihan">Virtual account number</string>
+    <string name="menu_search">Search</string>
+    <string name="navigation_menu">"Navigation menu"</string>
+    <string name="no_record_wrong_url_bottom_message">You can now close this browser</string>
+    <string name="no_record_wrong_url_desc">Please check your transaction URL</string>
+    <string name="no_record_wrong_url_instruction_1">If the problem still persist, please contact the merchant and provide this information:</string>
+    <string name="no_record_wrong_url_instruction_2"> SNAP token ID: %s"</string>
+    <string name="no_record_wrong_url_title">Couldn\'t find your transaction record</string>
+    <string name="not_selected">Not selected</string>
     <string name="not_set">Not set</string>
+    <string name="octo_click_cta">Pay now</string>
+    <string name="octo_click_instruction">Please complete OCTO Clicks payment through OCTO Clicks app/website.</string>
+    <string name="octo_click_title">OCTOClicks</string>
+    <string name="off">Off</string>
+    <string name="on">On</string>
+    <string name="other_bank_instruction_alto_title">Alto</string>
+    <string name="other_bank_instruction_atm_bersama_title">ATM Bersama</string>
+    <string name="other_bank_instruction_prima_title">Prima</string>
+    <string name="payment_details_customer_detail_title">Customer details</string>
+    <string name="payment_details_point_redemption_title">Points</string>
+    <string name="payment_details_promo_title">Promo</string>
+    <string name="payment_details_subtotal">Subtotal</string>
+    <string name="payment_details_title">Your order</string>
+    <string name="payment_details_total">Total</string>
+    <string name="payment_instruction_how_to_pay_title">How to pay</string>
+    <string name="payment_summary_akulaku">Akulaku PayLater</string>
+    <string name="payment_summary_alfamart">Alfa Group</string>
+    <string name="payment_summary_bank_transfer">Bank transfer</string>
+    <string name="payment_summary_bcaklikpay">BCA KlikPay</string>
+    <string name="payment_summary_brimo">BRIMo</string>
+    <string name="payment_summary_cc_dc">Credit/debit card</string>
+    <string name="payment_summary_danamonob">Danamon Online Banking</string>
+    <string name="payment_summary_gopay">GoPay/other e-Wallets</string>
+    <string name="payment_summary_indomaret">Indomaret</string>
+    <string name="payment_summary_klikbca">KlikBCA</string>
+    <string name="payment_summary_kredivo">Kredivo</string>
+    <string name="payment_summary_octoclicks">OctoClicks</string>
+    <string name="payment_summary_order_id">Order ID #</string>
+    <string name="payment_summary_pay_method_selection_timer">Choose within</string>
+    <string name="payment_summary_promo_available">Promo available</string>
+    <string name="payment_summary_saved_card">card(s) saved</string>
+    <string name="payment_summary_select_method">Payment method</string>
+    <string name="payment_summary_shopeepay">ShopeePay/other e-Wallets</string>
+    <string name="payment_summary_total">Total</string>
+    <string name="payment_summary_uobezpay">UOB EZ Pay</string>
+    <string name="payment_title_gopay">GoPay</string>
+    <string name="payment_title_shopeepay">ShopeePay</string>
+    <string name="permata_instruction_other_bank_title">Via other banks</string>
+    <string name="permata_instruction_permata_title">Via Permata account</string>
+    <string name="pl_error_bottom_message">You can now close this browser</string>
+    <string name="pl_error_desc">This transaction link has been used or already expired. Please place new order and complete the transaction.</string>
+    <string name="pl_error_title">Can\'t continue the transaction</string>
+    <string name="point_amount_of_points">You have points worth %s</string>
+    <string name="point_desc">There\'s a technical error. You can continue payment without redeeming points.</string>
+    <string name="point_discount">Point discount</string>
+    <string name="point_failed_title">Failed to load points</string>
+    <string name="point_insufficient_title">Exceeding your points value</string>
+    <string name="point_loading">Loading points…</string>
+    <string name="point_pay_cta">Pay</string>
+    <string name="point_pay_cta_without_point">Continue without points</string>
+    <string name="point_rp_currency">Rp</string>
+    <string name="point_title_bni">Redeem BNI Rewards Point</string>
+    <string name="point_total_payment">Total payment</string>
     <string name="preference_copied">
         \"<ns1:g example="Version 1.1" id="summary">%1$s</ns1:g>\" copied to clipboard.
     </string>
     <string name="project_id" translatable="false">travellingkuy0190</string>
+    <string name="promo_exhausted_cta_1">Proceed</string>
+    <string name="promo_exhausted_cta_2">Back</string>
+    <string name="promo_exhausted_desc">Do you want to proceed transaction without using promo?</string>
+    <string name="promo_exhausted_title">Promo quota is fully used</string>
+    <string name="promo_select_promo_title">Select promo</string>
+    <string name="qr_failed_load">Failed to load QR</string>
+    <string name="qr_reload">Reload</string>
+    <string name="range_end">"Range end"</string>
+    <string name="range_start">"Range start"</string>
+    <string name="redirection_instruction_gopay_cta">Pay now</string>
+    <string name="redirection_instruction_shopeepay_cta">Pay now</string>
+    <string name="redirection_screen_gopay_coundown_message">Page will be opened in %s second(s).</string>
+    <string name="redirection_screen_gopay_cta">Open Gojek now</string>
+    <string name="redirection_screen_gopay_main_message">Redirecting to Gojek…</string>
+    <string name="redirection_screen_shopeepay_coundown_message">Page will be opened in %s second(s).</string>
+    <string name="redirection_screen_shopeepay_cta">Open Shopee now</string>
+    <string name="redirection_screen_shopeepay_main_message">Redirecting to Shopee…</string>
+    <string name="redirection_to_uob_tmrw_cta">Open Uob now</string>
+    <string name="redirection_to_uob_tmrw_message">Redirecting to Uob…</string>
+    <string name="rejected_transaction_shopeepay_cta">Okay</string>
+    <string name="rejected_transaction_shopeepay_desc">Please try other payment method.</string>
+    <string name="rejected_transaction_shopeepay_title">Failed to proceed to Shopee</string>
+    <string name="remove_card_cta_1">Cancel</string>
+    <string name="remove_card_cta_2">Yes, remove</string>
+    <string name="remove_card_desc">This card will be removed from your saved card list.</string>
+    <string name="remove_card_title">Remove this card?</string>
+    <string name="retry_to_load">Reload</string>
     <string name="search_menu_title">Search</string>
+    <string name="selected">Selected</string>
     <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="success_screen_v1_cta">Back to merchant</string>
+    <string name="success_screen_v1_order_id">Order ID %s</string>
+    <string name="success_screen_v1_redirecting_c_d">Redirecting back automatically in %s second(s)</string>
+    <string name="success_screen_v1_status">Payment successful</string>
+    <string name="success_screen_v2_info">You can now close this page</string>
+    <string name="success_screen_v2_status">Payment successful</string>
     <string name="summary_collapsed_preference_list"><ns1:g id="current_items">%1$s</ns1:g>, <ns1:g id="added_items">%2$s</ns1:g></string>
+    <string name="switch_role">Switch</string>
+    <string name="system_error_dialog_allow_retry_content">Failed to process your transaction. Please retry.</string>
+    <string name="system_error_dialog_allow_retry_cta">Retry</string>
+    <string name="system_error_dialog_allow_retry_title">We’re experiencing system error</string>
+    <string name="system_error_dialog_disallow_retry_content">SPlease return to merchant\'s page and place your order again.</string>
+    <string name="system_error_dialog_disallow_retry_cta">Return to merchant\'s page</string>
+    <string name="system_error_dialog_disallow_retry_title">Failed to process payment</string>
+    <string name="tab">Tab</string>
+    <string name="template_percent"><ns1:g id="percentage">%1$d</ns1:g> percent.</string>
+    <string name="tidmid_error_other_pay_method_available_content">Failed to process transaction. Please use other available payment method.</string>
+    <string name="tidmid_error_other_pay_method_available_cta">Choose other method</string>
+    <string name="tidmid_error_other_pay_method_available_title">Payment method error</string>
+    <string name="tidmid_error_other_pay_method_not_available_content">Please return to merchant\'s page and place your order again.</string>
+    <string name="tidmid_error_other_pay_method_not_available_cta">Return to merchant\'s page</string>
+    <string name="tidmid_error_other_pay_method_not_available_title">Payment method error</string>
+    <string name="timeout_error_dialog_from_bank_content">Failed to process transaction due to temporary error. Please use other available payment method.</string>
+    <string name="timeout_error_dialog_from_bank_cta">Choose other method</string>
+    <string name="timeout_error_dialog_from_bank_title">Payment method error</string>
+    <string name="tooltip_description">tooltip</string>
+    <string name="tooltip_label">show tooltip</string>
+    <string name="transaction_denied_gopay_cta">Okay</string>
+    <string name="transaction_denied_gopay_desc">Please try other payment method.</string>
+    <string name="transaction_denied_gopay_title">Failed to proceed to GoPay</string>
+    <string name="uob_ez_pay_title">UOB EZ Pay</string>
+    <string name="uob_tmrw_cta">Pay now</string>
+    <string name="uob_tmrw_instruction">Please make sure that you have registered ID and complete your payment via UOB TMRW app.</string>
+    <string name="uob_tmrw_method_name">UOB TMRW app</string>
+    <string name="uob_web_cta">Pay now</string>
+    <string name="uob_web_instruction">Please make sure that you have registered ID and complete your payment via UOB EZ Pay.</string>
+    <string name="uob_web_method_name">UOB EZ Pay via web</string>
     <string name="v7_preference_off">OFF</string>
     <string name="v7_preference_on">ON</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
@@ -513,6 +1102,9 @@
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>
     <style name="Animation.AppCompat.DropDownUp" parent="Base.Animation.AppCompat.DropDownUp"/>
     <style name="Animation.AppCompat.Tooltip" parent="Base.Animation.AppCompat.Tooltip"/>
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+
+    </style>
     <style name="Base.AlertDialog.AppCompat" parent="android:Widget">
         <item name="android:layout">@layout/abc_alert_dialog_material</item>
         <item name="listLayout">@layout/abc_select_dialog_material</item>
@@ -750,6 +1342,7 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="actionBarWidgetTheme">@null</item>
         <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="actionModeTheme">?attr/actionBarTheme</item>
 
         
         <item name="listChoiceBackgroundIndicator">@drawable/abc_list_selector_holo_dark</item>
@@ -843,7 +1436,6 @@
         <item name="isLightTheme">true</item>
     </style>
     <style name="Base.V7.Theme.AppCompat" parent="Platform.AppCompat">
-        <item name="viewInflaterClass">androidx.appcompat.app.AppCompatViewInflater</item>
         <item name="windowNoTitle">false</item>
         <item name="windowActionBar">true</item>
         <item name="windowActionBarOverlay">false</item>
@@ -884,9 +1476,11 @@
         <item name="actionDropDownStyle">@style/Widget.AppCompat.Spinner.DropDown.ActionBar</item>
 
         
+        <item name="actionModeTheme">?attr/actionBarTheme</item>
         <item name="actionModeStyle">@style/Widget.AppCompat.ActionMode</item>
         <item name="actionModeBackground">@drawable/abc_cab_background_top_material</item>
         <item name="actionModeSplitBackground">?attr/colorPrimaryDark</item>
+        <item name="actionModeCloseContentDescription">@string/abc_action_mode_done</item>
         <item name="actionModeCloseDrawable">@drawable/abc_ic_ab_back_material</item>
         <item name="actionModeCloseButtonStyle">@style/Widget.AppCompat.ActionButton.CloseMode</item>
 
@@ -967,6 +1561,7 @@
 
         <item name="drawerArrowStyle">@style/Widget.AppCompat.DrawerArrowToggle</item>
 
+        <item name="checkedTextViewStyle">?android:attr/checkedTextViewStyle</item>
         <item name="checkboxStyle">@style/Widget.AppCompat.CompoundButton.CheckBox</item>
         <item name="radioButtonStyle">@style/Widget.AppCompat.CompoundButton.RadioButton</item>
         <item name="switchStyle">@style/Widget.AppCompat.CompoundButton.Switch</item>
@@ -1039,8 +1634,6 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
     <style name="Base.V7.Theme.AppCompat.Light" parent="Platform.AppCompat.Light">
-        <item name="viewInflaterClass">androidx.appcompat.app.AppCompatViewInflater</item>
-
         <item name="windowNoTitle">false</item>
         <item name="windowActionBar">true</item>
         <item name="windowActionBarOverlay">false</item>
@@ -1078,9 +1671,11 @@
         <item name="actionMenuTextColor">?android:attr/textColorPrimaryDisableOnly</item>
 
         
+        <item name="actionModeTheme">?attr/actionBarTheme</item>
         <item name="actionModeStyle">@style/Widget.AppCompat.ActionMode</item>
         <item name="actionModeBackground">@drawable/abc_cab_background_top_material</item>
         <item name="actionModeSplitBackground">?attr/colorPrimaryDark</item>
+        <item name="actionModeCloseContentDescription">@string/abc_action_mode_done</item>
         <item name="actionModeCloseDrawable">@drawable/abc_ic_ab_back_material</item>
         <item name="actionModeCloseButtonStyle">@style/Widget.AppCompat.ActionButton.CloseMode</item>
 
@@ -1292,7 +1887,9 @@
         <item name="contentInsetStart">16dp</item>
         <item name="contentInsetStartWithNavigation">@dimen/abc_action_bar_content_inset_with_nav</item>
         <item name="android:paddingLeft">@dimen/abc_action_bar_default_padding_start_material</item>
+        <item name="android:paddingStart">@dimen/abc_action_bar_default_padding_start_material</item>
         <item name="android:paddingRight">@dimen/abc_action_bar_default_padding_end_material</item>
+        <item name="android:paddingEnd">@dimen/abc_action_bar_default_padding_end_material</item>
     </style>
     <style name="Base.Widget.AppCompat.ActionBar" parent="">
         <item name="displayOptions">showTitle</item>
@@ -1372,6 +1969,17 @@
         <item name="titleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionMode.Title</item>
         <item name="subtitleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle</item>
         <item name="closeItemLayout">@layout/abc_action_mode_close_item_material</item>
+
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="titleMargin">4dp</item>
+        <item name="maxButtonHeight">@dimen/abc_action_bar_default_height_material</item>
+        <item name="buttonGravity">top</item>
+        <item name="contentInsetStart">16dp</item>
+        <item name="contentInsetStartWithNavigation">@dimen/abc_action_bar_content_inset_with_nav</item>
+        <item name="android:paddingLeft">@dimen/abc_action_bar_default_padding_start_material</item>
+        <item name="android:paddingStart">@dimen/abc_action_bar_default_padding_start_material</item>
+        <item name="android:paddingRight">@dimen/abc_action_bar_default_padding_end_material</item>
+        <item name="android:paddingEnd">@dimen/abc_action_bar_default_padding_end_material</item>
     </style>
     <style name="Base.Widget.AppCompat.ActivityChooserView" parent="">
         <item name="android:gravity">center</item>
@@ -1612,6 +2220,19 @@
     <style name="CardView.Light">
         <item name="cardBackgroundColor">@color/cardview_light_background</item>
     </style>
+    <style name="DialogWindowTheme">
+        <item name="android:windowClipToOutline">false</item>
+    </style>
+    <style name="FloatingDialogTheme">
+        <item name="android:windowIsFloating">false</item>
+    </style>
+    <style name="FloatingDialogWindowTheme">
+        <item name="android:windowClipToOutline">false</item>
+        <item name="android:dialogTheme">@style/FloatingDialogTheme</item>
+    </style>
+    <style name="InAppWebViewTheme" parent="Theme.AppCompat">
+
+    </style>
     <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
         
         <item name="android:windowBackground">@drawable/launch_background</item>
@@ -1684,9 +2305,9 @@
         <item name="android:actionModePasteDrawable">?actionModePasteDrawable</item>
         <item name="android:actionModeSelectAllDrawable">?actionModeSelectAllDrawable</item>
 
-        <item name="android:textSelectHandle">@drawable/abc_text_select_handle_middle_mtrl_dark</item>
-        <item name="android:textSelectHandleLeft">@drawable/abc_text_select_handle_left_mtrl_dark</item>
-        <item name="android:textSelectHandleRight">@drawable/abc_text_select_handle_right_mtrl_dark</item>
+        <item name="android:textSelectHandle">@drawable/abc_text_select_handle_middle_mtrl</item>
+        <item name="android:textSelectHandleLeft">@drawable/abc_text_select_handle_left_mtrl</item>
+        <item name="android:textSelectHandleRight">@drawable/abc_text_select_handle_right_mtrl</item>
     </style>
     <style name="Platform.AppCompat.Light" parent="android:Theme.Holo.Light">
         <item name="android:windowNoTitle">true</item>
@@ -1754,9 +2375,9 @@
         <item name="android:actionModePasteDrawable">?actionModePasteDrawable</item>
         <item name="android:actionModeSelectAllDrawable">?actionModeSelectAllDrawable</item>
 
-        <item name="android:textSelectHandle">@drawable/abc_text_select_handle_middle_mtrl_light</item>
-        <item name="android:textSelectHandleLeft">@drawable/abc_text_select_handle_left_mtrl_light</item>
-        <item name="android:textSelectHandleRight">@drawable/abc_text_select_handle_right_mtrl_light</item>
+        <item name="android:textSelectHandle">@drawable/abc_text_select_handle_middle_mtrl</item>
+        <item name="android:textSelectHandleLeft">@drawable/abc_text_select_handle_left_mtrl</item>
+        <item name="android:textSelectHandleRight">@drawable/abc_text_select_handle_right_mtrl</item>
     </style>
     <style name="Platform.ThemeOverlay.AppCompat" parent=""/>
     <style name="Platform.ThemeOverlay.AppCompat.Dark">
@@ -2077,6 +2698,7 @@
     <style name="Theme.AppCompat.Dialog.MinWidth" parent="Base.Theme.AppCompat.Dialog.MinWidth"/>
     <style name="Theme.AppCompat.DialogWhenLarge" parent="Base.Theme.AppCompat.DialogWhenLarge">
     </style>
+    <style name="Theme.AppCompat.Empty" parent=""/>
     <style name="Theme.AppCompat.Light" parent="Base.Theme.AppCompat.Light"/>
     <style name="Theme.AppCompat.Light.DarkActionBar" parent="Base.Theme.AppCompat.Light.DarkActionBar"/>
     <style name="Theme.AppCompat.Light.Dialog" parent="Base.Theme.AppCompat.Light.Dialog"/>
@@ -2116,6 +2738,14 @@
     <style name="ThemeOverlay.AppCompat.Dialog" parent="Base.ThemeOverlay.AppCompat.Dialog"/>
     <style name="ThemeOverlay.AppCompat.Dialog.Alert" parent="Base.ThemeOverlay.AppCompat.Dialog.Alert"/>
     <style name="ThemeOverlay.AppCompat.Light" parent="Base.ThemeOverlay.AppCompat.Light"/>
+    <style name="ThemeTransparent" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
     <style name="Widget.AppCompat.ActionBar" parent="Base.Widget.AppCompat.ActionBar">
     </style>
     <style name="Widget.AppCompat.ActionBar.Solid" parent="Base.Widget.AppCompat.ActionBar.Solid">
@@ -2383,6 +3013,13 @@
         
         <attr format="string" name="activityAction"/>
     </declare-styleable>
+    <declare-styleable name="ActivityNavigator">
+        <attr name="android:name"/>
+        <attr format="string" name="action"/>
+        <attr format="string" name="data"/>
+        <attr format="string" name="dataPattern"/>
+        <attr format="string" name="targetPackage"/>
+    </declare-styleable>
     <declare-styleable name="ActivityRule">
         
         <attr format="boolean" name="alwaysExpand"/>
@@ -2429,6 +3066,9 @@
         <attr name="android:drawable"/>
         
         <attr name="android:reversible"/>
+    </declare-styleable>
+    <declare-styleable name="AppCompatEmojiHelper">
+
     </declare-styleable>
     <declare-styleable name="AppCompatImageView">
         <attr name="android:src"/>
@@ -2556,6 +3196,8 @@
                  result to valid color values. Saturate(S + D) -->
             <enum name="add" value="16"/>
         </attr>
+        
+        <attr format="boolean" name="emojiCompatEnabled"/>
     </declare-styleable>
     <declare-styleable name="AppCompatTheme">
 
@@ -2613,6 +3255,8 @@
         
         <attr format="reference" name="actionBarTheme"/>
         
+        <attr format="reference" name="actionModeTheme"/>
+        
         <attr format="reference" name="actionBarWidgetTheme"/>
         
         <attr format="dimension" name="actionBarSize">
@@ -2657,8 +3301,10 @@
         <attr format="reference" name="actionModeWebSearchDrawable"/>
 
         
-        <attr format="reference" name="actionModePopupWindowStyle"/>
+        <attr format="string" name="actionModeCloseContentDescription"/>
 
+        
+        <attr format="reference" name="actionModePopupWindowStyle"/>
 
         
         
@@ -2911,9 +3557,9 @@
         <eat-comment/>
 
         
-        <attr format="reference" name="listChoiceIndicatorMultipleAnimated"/>
-        
         <attr format="reference" name="listChoiceIndicatorSingleAnimated"/>
+        
+        <attr format="reference" name="listChoiceIndicatorMultipleAnimated"/>
 
     </declare-styleable>
     <declare-styleable name="BackgroundStyle">
@@ -2969,6 +3615,34 @@
         
         <attr format="boolean" name="disableDependentsState"/>
         <attr name="android:disableDependentsState"/>
+    </declare-styleable>
+    <declare-styleable name="CheckedTextView">
+        <attr name="android:checkMark"/>
+        
+        <attr format="reference" name="checkMarkCompat"/>
+        
+        <attr format="color" name="checkMarkTint"/>
+
+        
+        <attr name="checkMarkTintMode">
+            <!-- The tint is drawn on top of the drawable.
+                 [Sa + (1 - Sa)*Da, Rc = Sc + (1 - Sa)*Dc] -->
+            <enum name="src_over" value="3"/>
+            <!-- The tint is masked by the alpha channel of the drawable. The drawable’s
+                 color channels are thrown out. [Sa * Da, Sc * Da] -->
+            <enum name="src_in" value="5"/>
+            <!-- The tint is drawn above the drawable, but with the drawable’s alpha
+                 channel masking the result. [Da, Sc * Da + (1 - Sa) * Dc] -->
+            <enum name="src_atop" value="9"/>
+            <!-- Multiplies the color and alpha channels of the drawable with those of
+                 the tint. [Sa * Da, Sc * Dc] -->
+            <enum name="multiply" value="14"/>
+            <!-- [Sa + Da - Sa * Da, Sc + Dc - Sc * Dc] -->
+            <enum name="screen" value="15"/>
+            <!-- Combines the tint and icon color and alpha channels, clamping the
+                 result to valid color values. Saturate(S + D) -->
+            <enum name="add" value="16"/>
+        </attr>
     </declare-styleable>
     <declare-styleable name="ColorStateListItem">
         
@@ -3537,6 +4211,45 @@
         <attr name="entryValues"/>
         <attr name="android:entryValues"/>
     </declare-styleable>
+    <declare-styleable name="NavAction">
+        <attr name="android:id"/>
+        <attr format="reference" name="destination"/>
+        <attr format="boolean" name="launchSingleTop"/>
+        <attr format="boolean" name="restoreState"/>
+        <attr format="reference" name="popUpTo"/>
+        <attr format="boolean" name="popUpToInclusive"/>
+        <attr format="boolean" name="popUpToSaveState"/>
+        <attr format="reference" name="enterAnim"/>
+        <attr format="reference" name="exitAnim"/>
+        <attr format="reference" name="popEnterAnim"/>
+        <attr format="reference" name="popExitAnim"/>
+    </declare-styleable>
+    <declare-styleable name="NavArgument">
+        <attr name="android:name"/>
+        <attr name="android:defaultValue"/>
+        <attr format="boolean" name="nullable"/>
+        <attr format="string" name="argType"/>
+    </declare-styleable>
+    <declare-styleable name="NavDeepLink">
+        <attr format="string" name="uri"/>
+        <attr format="string" name="action"/>
+        <attr format="string" name="mimeType"/>
+        <attr name="android:autoVerify"/>
+    </declare-styleable>
+    <declare-styleable name="NavGraphNavigator">
+        <attr format="reference" name="startDestination"/>
+    </declare-styleable>
+    <declare-styleable name="NavHost">
+        <attr format="reference" name="navGraph"/>
+    </declare-styleable>
+    <declare-styleable name="NavInclude">
+        <attr format="reference" name="graph"/>
+    </declare-styleable>
+    <declare-styleable name="Navigator">
+        <attr name="android:id"/>
+        <attr format="string" name="route"/>
+        <attr name="android:label"/>
+    </declare-styleable>
     <declare-styleable name="PopupWindow">
         
         <attr format="boolean" name="overlapAnchor"/>
@@ -3850,6 +4563,10 @@
     <declare-styleable name="StateListDrawableItem">
         
         <attr name="android:drawable"/>
+    </declare-styleable>
+    <declare-styleable name="SwipeRefreshLayout">
+        
+        <attr format="color" name="swipeRefreshLayoutProgressSpinnerBackgroundColor"/>
     </declare-styleable>
     <declare-styleable name="SwitchCompat">
         

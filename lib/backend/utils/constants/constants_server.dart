@@ -4,7 +4,7 @@ const String baseUrl = 'http://127.0.0.1:5000';
 // API Endpoints
 const String authEndpoint = "$baseUrl/auth";
 const String bookingEndpoint = "$baseUrl/booking";
-const String paymentEndpoint = "$baseUrl/payment";
+const String orderEndpoint = "$baseUrl/order";
 const String notificationEndpoint = "$baseUrl/notification";
 const String destinationEndpoint = "$baseUrl/destination";
 const String userProfileEndpoint = "$baseUrl/user";

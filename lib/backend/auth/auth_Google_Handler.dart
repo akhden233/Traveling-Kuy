@@ -5,7 +5,6 @@ import '../auth/token_verifier/verifier.dart';
 import '../utils/helpers.dart';
 import '../db/db.dart';
 
-
 Future<Response> authGoogleHandler(Request request) async {
   // Save userInfo ke DB
   var conn = await dbConn.getConnection();
@@ -16,9 +15,22 @@ Future<Response> authGoogleHandler(Request request) async {
   }
 
   try {
-    final payload = await request.readAsString();
-    final data = jsonDecode(payload);
-    final token = data['token'];
+    // get token firebase (auth Header)
+    final authHeader = request.headers['Authorization'];
+    String? token;
+
+    if (authHeader != null && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
+    } else {
+      // Get dari body
+      final payload = await request.readAsString();
+      final data = jsonDecode(payload);
+      token = data['token'];
+
+      dev.log('[DEBUG] Token diambil dari body');
+      dev.log('[DEBUG] Payload: $payload');
+      dev.log('[DEBUG] Extracted token: $token');
+    }
 
     if (token == null || token.isEmpty) {
       return Response.badRequest(
@@ -90,7 +102,12 @@ Future<Response> authGoogleHandler(Request request) async {
       headers: {'Content-Type': 'application/json'},
     );
   } catch (e, stack) {
-    dev.log('Login GOOGLE error', error: e, stackTrace: stack, name: 'loginGoogleHandler');
+    dev.log(
+      'Login GOOGLE error',
+      error: e,
+      stackTrace: stack,
+      name: 'loginGoogleHandler',
+    );
     return Response.internalServerError(
       body: jsonEncode({
         'error': 'Something went wrong',

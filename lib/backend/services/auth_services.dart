@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import '../db/db.dart';
 import 'package:dotenv/dotenv.dart';
@@ -84,11 +85,19 @@ class AuthServices {
       );
 
       if (result != null && result.isNotEmpty) {
+        // Return photoUrl 
+        var photoData = result.first['photoUrl'];
+        String photoBase64 = '';
+        if (photoData != null && photoData is String) {
+          photoBase64 = photoData;
+
+        }
+
         return {
           'uid': result.first['uid'],
           'name': result.first['name'],
           'email': result.first['email'],
-          'photoUrl': result.first['photoUrl'] ?? '',
+          'photoUrl': photoBase64,
         };
       }
       return null;

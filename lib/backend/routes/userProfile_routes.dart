@@ -154,7 +154,10 @@ class UserprofileRoutes {
         }
 
         return Response.ok(
-          jsonEncode({'message': 'User profile updated'}),
+          jsonEncode({
+            'message': 'User profile updated',
+            'photoUrl': photoUrl ?? '',  
+          }),
           headers: {'Content-Type': 'application/json'},
         );
       } catch (e) {
